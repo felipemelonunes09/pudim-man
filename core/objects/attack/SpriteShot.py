@@ -2,7 +2,7 @@
 
 from core.general.ICollidable import ICollidable
 from core.objects.SceneObject import SceneObject
-from core.objects.ship.attack.Shot import Shot
+from core.objects.attack.Shot import Shot
 
 import pygame
 

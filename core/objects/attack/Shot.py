@@ -1,7 +1,5 @@
-
-
-from core.objects.ship.attack.IShot import IShot
-
+from core.general.IDamageable import IDamageable
+from core.objects.attack.IShot import IShot
 
 class Shot(IShot):
 
@@ -13,6 +11,13 @@ class Shot(IShot):
         self.shooter = id(shooter)
         
     def collide(self, collision_object: object):
-        
+
         if id(collision_object) != self.shooter:
             self.destroy()
+
+        if isinstance(collision_object, IDamageable):
+            collision_object.damage(self)
+
+    def get_damage(self):
+        return self.damage
+        

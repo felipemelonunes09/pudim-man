@@ -1,5 +1,5 @@
 
-from core.objects.ship.attack.SpriteShot import SpriteShot
+from core.objects.attack.SpriteShot import SpriteShot
 
 
 import pygame
