@@ -1,16 +1,16 @@
 from abc import abstractmethod
 from core.general.ICollidable import ICollidable
+from core.general.IDamageObject import IDamageObject
+from core.general.IDamageable import IDamageable
 from core.objects.SceneObject import SceneObject
-from core.objects.ship.attack.PrimaryShot import PrimaryShot
+from core.objects.attack.PrimaryShot import PrimaryShot
+from core.objects.attack.Shot import Shot
 from core.utils.Cooldown import Cooldown
 from core.GameProxy import GameProxy
 
 import pygame
 
-
-
-
-class BaseShipEngine(SceneObject, ICollidable):
+class BaseShipEngine(SceneObject, ICollidable, IDamageable):
 
     def __init__(self, position: tuple, group: object, sprite: str, ship: object) -> None:
         super().__init__(position, group, sprite)
@@ -56,6 +56,13 @@ class BaseShipEngine(SceneObject, ICollidable):
             if isinstance(collision_object, PrimaryShot):
                 self.life -= 50
     
+    def damage(self, damage_object: IDamageObject):
+
+        total_damage = damage_object.get_damage()
+
+        ## routine in case its a shot
+        if isinstance(damage_object, Shot):
+            self.life -= total_damage
 
     @abstractmethod
     def move():
