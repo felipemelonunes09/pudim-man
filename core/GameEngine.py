@@ -7,7 +7,6 @@ from core.general.ICollidable import *
 
 from core.objects.ship.BaseEnemy import BaseEnemy
 from core.objects.TestObject import TestObject
-from core import GameProxy
 
 
 class GameEngine:
@@ -30,8 +29,8 @@ class GameEngine:
         self.running = True
 
         TestObject((0, 0, 255), (150, 150), 50, 50, self.camera)
-        self.player = Player((SCREEN_HEIGHT/2, SCREEN_WIDTH/2), self.camera, None) 
-        enemy =  BaseEnemy((SCREEN_HEIGHT/2, SCREEN_WIDTH/2), self.camera, None)
+        self.player = Player((SCREEN_HEIGHT/2, SCREEN_WIDTH/2), self.camera) 
+        enemy =  BaseEnemy((SCREEN_HEIGHT/2, SCREEN_WIDTH/2), self.camera)
 
         while self.running:
             for event in pygame.event.get():

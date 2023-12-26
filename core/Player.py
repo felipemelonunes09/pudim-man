@@ -9,14 +9,14 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from core.objects.ship.BaseShipEngine import BaseShipEngine
+from core.objects.ship.types.Ship import Ship
 from setting import *
 
-class Player(BaseShipEngine):
+class Player(Ship):
     
-    def __init__(self, position, camera, ship) -> None:
+    def __init__(self, position, camera) -> None:
 
-        super().__init__(position, camera, 'graphics/ship1.png', ship)
+        super().__init__(position, camera, 'graphics/ship1.png')
         self.normal = self.direction.copy()
         
 
