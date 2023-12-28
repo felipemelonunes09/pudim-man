@@ -43,14 +43,14 @@ class Ship(BaseShipEngine, IDamageable):
     ## not oficical implementation
     def collide(self, collision_object: object):
         if collision_object is not self.last_shot:
-            if isinstance(collision_object, PrimaryShot):
-                self.life -= 50
-
+            return
+        
     ## not oficical implementation
     def damage(self, damage_object: IDamageObject):
         total_damage = damage_object.get_damage()
         ## routine in case its a shot
         if isinstance(damage_object, Shot):
+            return 
             self.life -= total_damage
 
 

@@ -1,5 +1,5 @@
 from core.general.IDamageObject import IDamageObject
-from core.objects.ship.room.room import Room, TYPE, ROOM_LIFE
+from core.objects.ship.room.Room import ROOM_LIFE, Room, TYPE
 
 ## class that is used to "produce" movement
 
