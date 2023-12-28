@@ -19,7 +19,7 @@ class Cooldown(object):
             return self.__method(*args, **kwds)
         else: 
             if self.__colldown_callback is not None:
-                self.__colldown_callback(*args, **kwds)
+                return self.__colldown_callback(*args, **kwds)
 
         
 
