@@ -18,7 +18,6 @@ class BaseShipEngine(SceneObject, ICollidable):
         ## temporary by this values comes from __ship
         ## direction should awalys be -1
         self.direction.y = -1
-        self.speed = 2
 
         self.last_shot = None
         self.life = 100
@@ -31,11 +30,15 @@ class BaseShipEngine(SceneObject, ICollidable):
         if self.life <= 0:
             self.kill()
 
-        self.rect.center += self.direction * self.speed
+        self.rect.center += self.direction * self.get_speed()
         self.image = pygame.transform.rotate(self.__image, self.direction.angle_to( self.normal ))
     
     def collide(self, collision_object: object):
         ## global collide  method
+        pass
+
+    @abstractmethod
+    def get_speed(self) -> float:
         pass
 
     @abstractmethod
