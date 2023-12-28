@@ -12,13 +12,9 @@ class BaseShipEngine(SceneObject, ICollidable):
 
         self.direction = pygame.math.Vector2()
         self.normal = self.direction.copy()
-
         self.__image = self.image
 
-        ## temporary by this values comes from __ship
-        ## direction should awalys be -1
         self.direction.y = -1
-
         self.last_shot = None
         self.life = 100
 
@@ -34,7 +30,6 @@ class BaseShipEngine(SceneObject, ICollidable):
         self.image = pygame.transform.rotate(self.__image, self.direction.angle_to( self.normal ))
     
     def collide(self, collision_object: object):
-        ## global collide  method
         pass
 
     @abstractmethod
