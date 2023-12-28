@@ -38,10 +38,10 @@ class Player(Ship):
             self.direction = self.direction.rotate(-2)
 
         if pressed_keys[K_UP]:
-            self.acelerate_all(2)
+            self.acelerate_all(PLAYER_ACELERATION_CHANGE)
 
         if pressed_keys[K_DOWN]:
-            self.acelerate_all(-2)
+            self.acelerate_all(-PLAYER_ACELERATION_CHANGE)
 
     def events(self):
 
@@ -52,3 +52,4 @@ class Player(Ship):
             pos = (pos[0] - self.position[0], pos[1] - self.position[1])
             
             obj = self.shoot(pos)
+
