@@ -9,12 +9,7 @@ from core.utils.Cooldown import Cooldown
 
 class Ship(BaseShipEngine, IDamageable):
     
-    def __init__(
-            self, 
-            position: tuple, 
-            group: object,
-            sprite: str
-        ) -> None:
+    def __init__(self, position: tuple, group: object,sprite: str) -> None:
         
         super().__init__(position, group, sprite)
 
@@ -32,31 +27,28 @@ class Ship(BaseShipEngine, IDamageable):
             self.motorRoom
         ]
 
+        # not oficial implementation
         self.shoot = Cooldown(200, self.shoot, None)
         self.motorRoom.set_using_all_motors(1)
 
-    def collide(self, collision_object: object):
-        if collision_object is not self.last_shot:
-            if isinstance(collision_object, PrimaryShot):
-                self.life -= 50
 
     def get_speed(self) -> float:
-        speed = self.motorRoom.use()
-        print(speed)
-        return speed
+        return self.motorRoom.use()
     
     def acelerate_all(self, aceleration):
         current_aceleration = self.motorRoom.get_avarage_using()
         current_aceleration += (aceleration/100)
         self.motorRoom.set_using_all_motors(current_aceleration)
 
-
+    ## not oficical implementation
+    def collide(self, collision_object: object):
+        if collision_object is not self.last_shot:
+            if isinstance(collision_object, PrimaryShot):
+                self.life -= 50
 
     ## not oficical implementation
     def damage(self, damage_object: IDamageObject):
-
         total_damage = damage_object.get_damage()
-
         ## routine in case its a shot
         if isinstance(damage_object, Shot):
             self.life -= total_damage
