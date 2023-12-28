@@ -21,13 +21,6 @@ class IRoom(IDamageable, IRepairable, metaclass=ABCMeta):
     def is_active(self):
         pass
 
-    @abstractmethod
-    def get_life(self):
-        pass
-
-    @abstractmethod
-    def set_life(self):
-        pass
 
 class Room(IRoom):
     
