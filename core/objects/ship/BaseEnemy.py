@@ -1,12 +1,10 @@
 import pygame
+from core.objects.ship.types.Ship import Ship
 
-from core.objects.ship.BaseShipEngine import BaseShipEngine
+class BaseEnemy(Ship):
 
-
-class BaseEnemy(BaseShipEngine):
-
-    def __init__(self, position: tuple, group: object, ship: object) -> None:
-        super().__init__(position, group, 'graphics/ship1.png', ship)
+    def __init__(self, position: tuple, group: object) -> None:
+        super().__init__(position, group, 'graphics/ship1.png')
         self.normal = self.direction.copy()
 
     def move(self):

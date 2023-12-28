@@ -4,11 +4,10 @@ from setting import *
 from core.Player import *
 from core.Camera import *
 from core.general.ICollidable import *
+from core.Hud import *
 
 from core.objects.ship.BaseEnemy import BaseEnemy
 from core.objects.TestObject import TestObject
-from core import GameProxy
-
 
 class GameEngine:
 
@@ -20,20 +19,23 @@ class GameEngine:
         self.clock = pygame.time.Clock()
 
         self.running = False
+
         self.camera = Camera()
+        self.hud = Hud()
 
         GameEngine.set_groups(SPRITE_GROUPS)
         
 
     def start(self) -> None:
+        
+        TestObject((0, 0, 255), (150, 150), 50, 50, self.camera)
+        self.player = Player((SCREEN_HEIGHT/2, SCREEN_WIDTH/2), self.camera) 
+        enemy =  BaseEnemy((SCREEN_HEIGHT/2, SCREEN_WIDTH/2), self.camera)
 
         self.running = True
+        self.hud.set_player(self.player)
 
-        TestObject((0, 0, 255), (150, 150), 50, 50, self.camera)
-        self.player = Player((SCREEN_HEIGHT/2, SCREEN_WIDTH/2), self.camera, None) 
-        enemy =  BaseEnemy((SCREEN_HEIGHT/2, SCREEN_WIDTH/2), self.camera, None)
-
-        while self.running:
+        while self.running:     
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
@@ -41,8 +43,9 @@ class GameEngine:
             self.screen.fill('black')
 
             self.camera.update()
-            self.camera.draw(target=self.player)
+            self.hud.update()
 
+            self.camera.draw(target=self.player)
             self.handle_colision()
 
             self.clock.tick(FRAME_RATE)

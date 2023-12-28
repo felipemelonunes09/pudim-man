@@ -9,24 +9,23 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
-from core.objects.ship.BaseShipEngine import BaseShipEngine
+from core.objects.ship.types.Ship import Ship
 from setting import *
 
-class Player(BaseShipEngine):
+class Player(Ship):
     
-    def __init__(self, position, camera, ship) -> None:
+    def __init__(self, position, camera) -> None:
 
-        super().__init__(position, camera, 'graphics/ship1.png', ship)
+        super().__init__(position, camera, 'graphics/ship1.png')
         self.normal = self.direction.copy()
         
-
-
     def update(self, *args, **kargs) -> None:
 
         pressed_keys = pygame.key.get_pressed()
 
         self.move(pressed_keys)
         self.events()
+
         super().update()
 
 
@@ -38,6 +37,12 @@ class Player(BaseShipEngine):
         if pressed_keys[K_LEFT]:
             self.direction = self.direction.rotate(-2)
 
+        if pressed_keys[K_UP]:
+            self.acelerate_all(PLAYER_ACELERATION_CHANGE)
+
+        if pressed_keys[K_DOWN]:
+            self.acelerate_all(-PLAYER_ACELERATION_CHANGE)
+
     def events(self):
 
         clicked = pygame.mouse.get_pressed()
@@ -47,3 +52,4 @@ class Player(BaseShipEngine):
             pos = (pos[0] - self.position[0], pos[1] - self.position[1])
             
             obj = self.shoot(pos)
+
