@@ -65,4 +65,17 @@ class MechanicalBreakLowEvent(MotorEvent):
         
         
 
-    
+class MechanicalBreakMediumEvent():
+    pass
+
+class MechanicalBreakHighEvent():
+    pass
+
+class StartFireEvent():
+    pass
+
+class OnFireEvent():
+    pass
+
+class CrashDownEvent():
+    pass
