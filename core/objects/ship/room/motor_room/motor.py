@@ -30,7 +30,7 @@ class Motor(IMotor):
             life = 100, 
             eficiency_loss = 0.001, 
             propulsion_gain = 0.6,
-            max_use = 1.5,
+            max_use = 1.2,
             repair_bonus = 0.1,
             heat_gain = 0.001,
             heat_loss = 0.02,
@@ -82,7 +82,7 @@ class Motor(IMotor):
             self.heat += self.heat_gain * self.using
             propulsion = self.get_propulsion()
 
-            return self.propulsion
+            return propulsion
         return 0
         
     def damage(self, obj: IDamageObject):
