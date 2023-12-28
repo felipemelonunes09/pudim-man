@@ -29,8 +29,8 @@ class GameEngine:
     def start(self) -> None:
         
         TestObject((0, 0, 255), (150, 150), 50, 50, self.camera)
-        self.player = Player((SCREEN_HEIGHT/2, SCREEN_WIDTH/2), self.camera) 
-        enemy =  BaseEnemy((SCREEN_HEIGHT/2, SCREEN_WIDTH/2), self.camera)
+        self.player = Player((SCREEN_WIDTH/2,SCREEN_HEIGHT/2), self.camera) 
+        enemy =  BaseEnemy((SCREEN_WIDTH/2,SCREEN_HEIGHT/2), self.camera)
 
         self.running = True
         self.hud.set_player(self.player)
