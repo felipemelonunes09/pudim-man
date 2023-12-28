@@ -6,6 +6,7 @@ from core.general.IDamageObject import IDamageObject
 from core.general.IDamageable import IDamageable
 from core.general.IRepairable import IRepairable
 from core.objects.ship.room.motor_room.event import MechanicalBreakLowEvent
+from core.utils.Cooldown import Cooldown
 
 
 class IMotor(IDamageable, IRepairable, metaclass=ABCMeta):
@@ -28,11 +29,12 @@ class Motor(IMotor):
             self, 
             life = 100, 
             eficiency_loss = 0.001, 
-            propulsion_gain = 0.2,
+            propulsion_gain = 0.6,
             max_use = 1.5,
             repair_bonus = 0.1,
             heat_gain = 0.001,
-            heat_loss = 0.02
+            heat_loss = 0.02,
+            use_cooldown=100
         ) -> None:
 
         if (life or eficiency_loss or propulsion_gain or max_use or repair_bonus or heat_gain) <= 0:
@@ -45,6 +47,9 @@ class Motor(IMotor):
         self.repair_bonus = repair_bonus
         self.heat_gain = heat_gain
         self.heat_loss = heat_loss
+        self.use_cooldown=use_cooldown
+
+        self.use = Cooldown(use_cooldown, self.use, cooldown_callback=self.get_propulsion)
 
         self.events = {
             "MECHANICAL_BREAK_LOW": MechanicalBreakLowEvent(self),
@@ -67,7 +72,6 @@ class Motor(IMotor):
     def use(self) -> int:
 
         if self.activate:
-
             self.eficiency -= self.eficiency_loss
             self.__events()
 
@@ -76,10 +80,9 @@ class Motor(IMotor):
                 return self.eficiency 
 
             self.heat += self.heat_gain * self.using
-            propulsion = self.propulsion_gain * self.eficiency * self.using
+            propulsion = self.get_propulsion()
 
-
-            return propulsion
+            return self.propulsion
         return 0
         
     def damage(self, obj: IDamageObject):
@@ -96,20 +99,18 @@ class Motor(IMotor):
     def __events(self):
         for event in self.events:
             self.events[event]()
-
-    def acelerate(self, using: int):
+    
+    def get_propulsion(self) -> float:
+        return self.propulsion_gain * self.eficiency * self.using
+        
+    def set_using(self, using: int):
         if (using < 0):
-            raise ValueError("using can not be negative")
+            using = 0
+
+        if (using > self.max_use):
+            using = self.max_use
         
         self.using = using
-        pass
-
-    def deacelerate(self, using: int):
-        if (using < 0):
-            raise ValueError("using can not be negative")
-        self.using = using
-        pass
-
 
 def motor_factory():
     raise Exception("method not implemented")
