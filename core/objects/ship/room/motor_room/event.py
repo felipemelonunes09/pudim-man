@@ -25,11 +25,11 @@ class MotorEvent(metaclass=ABCMeta):
 [MECHANICAL BREAK LOW EVENT]
 
 -> happens on 
-    [probability 1] it can happen at any times with a probability on 0.002 propability pern turn
-    [probability 2] if effiency is lower than 0.2 it can with a probality of 0.003 pern turn
-    [probability 3] if heat is above 0.9 it can happen with a probability of 0.005 per turn 
+    [probability 1] it can happen at any times with a probability on 0.1% propability pern turn
+    [probability 2] if effiency is lower than 0.2 it can with a probality of 0.03% pern turn
+    [probability 3] if heat is above 0.9 it can happen with a probability of 0.05% per turn 
 -> it takes
-    it only reduces the effiency of the machine by 0.001 per event
+    it only reduces the effiency of the machine by 0.1% per event
 
 -> desire proporsion
     at 100 updates -> 1 event
@@ -43,7 +43,7 @@ class MechanicalBreakLowEvent(MotorEvent):
         self.__effiency_trigger_1 = 0.2
         self.__heat_trigger_1 = 0.9
 
-        self.__probability_1 = 0.002
+        self.__probability_1 = 0.001
         self.__probability_2 = 0.003
         self.__probability_3 = 0.005
 
@@ -53,10 +53,10 @@ class MechanicalBreakLowEvent(MotorEvent):
 
         final = self.__probability_1
         if (self.motor.eficiency < self.__effiency_trigger_1):
-            total = self.__probability_2
+            final = self.__probability_2
         
         if (self.motor.heat > self.__heat_trigger_1):
-            total += self.__probability_3
+            final += self.__probability_3
 
         return super().trigger(final)
         
