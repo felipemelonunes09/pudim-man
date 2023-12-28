@@ -22,9 +22,18 @@ class MotorRoom(Room):
     def repair(self):
         return super().repair()
     
-    def acelerate_all_motors(self, using: int):
+    def set_using_all_motors(self, using: int):
         for motor in self.motors:
-            motor.acelerate(using)
+            motor.set_using(using)
 
-    def acelerate_one(self, using: int, indice: int):
-        self.motors[indice].acelerate(using)
+    def set_using_one(self, using: int, indice: int):
+        self.motors[indice].set_using(using)
+
+    def get_avarage_using(self):
+        total = 0
+        for motor in self.motors:
+            total += motor.using
+
+        return total/len(self.motors)
+
+    
