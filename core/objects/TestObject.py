@@ -25,5 +25,5 @@ class TestObject(pygame.sprite.Sprite, IObject, ICollidable):
         return super().update(*args, **kwargs)
 
     def collide(self, collision_object: object):
-        print("collided")
+        pass
     
