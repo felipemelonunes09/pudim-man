@@ -19,14 +19,13 @@ class Player(Ship):
         super().__init__(position, camera, 'graphics/ship1.png')
         self.normal = self.direction.copy()
         
-
-
     def update(self, *args, **kargs) -> None:
 
         pressed_keys = pygame.key.get_pressed()
 
         self.move(pressed_keys)
         self.events()
+
         super().update()
 
 
@@ -37,6 +36,12 @@ class Player(Ship):
 
         if pressed_keys[K_LEFT]:
             self.direction = self.direction.rotate(-2)
+
+        if pressed_keys[K_UP]:
+            self.acelerate_all(2)
+
+        if pressed_keys[K_DOWN]:
+            self.acelerate_all(-2)
 
     def events(self):
 
