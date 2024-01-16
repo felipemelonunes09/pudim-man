@@ -3,42 +3,38 @@ from core.general.IDamageable import IDamageable
 from core.objects.attack.PrimaryShot import PrimaryShot
 from core.objects.attack.Shot import Shot
 from core.objects.ship.BaseShipEngine import BaseShipEngine
-from core.objects.ship.room.motor_room.MotorRoom import MotorRoom
-from core.objects.ship.room.motor_room.motor import Motor
-from core.utils.Cooldown import Cooldown
+from core.objects.ship.rooms.power_room.PowerRoom import PowerRoom
+from core.objects.ship.objects.Generator import Generator
+from core.general.utils.Cooldown import Cooldown
 
+## should damageable and reaperable
 class Ship(BaseShipEngine, IDamageable):
     
     def __init__(self, position: tuple, group: object,sprite: str) -> None:
         
         super().__init__(position, group, sprite)
 
-        # will be outside the class on be definied on a factory method
-        self.motorRoom = MotorRoom(
-            power_required=0.01, motors=[
-                Motor(),
-                Motor(),
-                Motor(),
-                Motor()
-            ]
-        )
-
-        self.rooms = [
-            self.motorRoom
-        ]
-
         # not oficial implementation
         self.shoot = Cooldown(200, self.shoot, None)
-        self.motorRoom.set_using_all_motors(1)
-
+        
+        self.power_room = PowerRoom(generators=[
+            Generator(),
+            Generator(),
+            Generator(),
+            Generator()
+        ])
+        
+    def update(self, *a, **k):
+        
+        self.power_room.generate_power()
+        
+        super().update(a, k)
 
     def get_speed(self) -> float:
-        return self.motorRoom.use()
+        return 2
     
     def acelerate_all(self, aceleration):
-        current_aceleration = self.motorRoom.get_avarage_using()
-        current_aceleration += (aceleration/100)
-        self.motorRoom.set_using_all_motors(current_aceleration)
+        pass
 
     ## not oficical implementation
     def collide(self, collision_object: object):
