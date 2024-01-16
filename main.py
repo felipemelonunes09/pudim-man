@@ -1,7 +1,6 @@
 from core.GameEngine import *
 from core.GameProxy import *
 
-global proxy
 
 if __name__ == '__main__': 
 
