@@ -4,12 +4,15 @@ from setting import *
 from core.Player import *
 from core.Camera import *
 from core.general.ICollidable import *
-from core.Hud import *
+
+from core.hud.Hud import *
 
 from core.objects.ship.BaseEnemy import BaseEnemy
 from core.objects.TestObject import TestObject
 
 class GameEngine:
+    
+    groups = {}
 
     def __init__(self) -> None:
 
@@ -20,9 +23,9 @@ class GameEngine:
 
         self.running = False
 
+        
         self.camera = Camera()
         self.hud = Hud()
-
         GameEngine.set_groups(SPRITE_GROUPS)
         
 
@@ -33,6 +36,7 @@ class GameEngine:
         enemy =  BaseEnemy((SCREEN_WIDTH/2,SCREEN_HEIGHT/2), self.camera)
 
         self.running = True
+        
         self.hud.set_player(self.player)
 
         while self.running:     
@@ -46,6 +50,8 @@ class GameEngine:
             self.hud.update()
 
             self.camera.draw(target=self.player)
+            self.hud.draw()
+            
             self.handle_colision()
 
             self.clock.tick(FRAME_RATE)
