@@ -1,16 +1,8 @@
 import pygame
 from core.objects.SceneObject import SceneObject
-from pygame.locals import (
-    K_UP,
-    K_DOWN,
-    K_LEFT,
-    K_RIGHT,
-    K_ESCAPE,
-    KEYDOWN,
-    QUIT,
-)
 from core.objects.ship.types.Ship import Ship
 from setting import *
+from pygame.locals import K_RIGHT, K_LEFT, K_0, K_9
 
 class Player(Ship):
     
@@ -36,12 +28,12 @@ class Player(Ship):
 
         if pressed_keys[K_LEFT]:
             self.direction = self.direction.rotate(-2)
-
-        if pressed_keys[K_UP]:
-            self.acelerate_all(PLAYER_ACELERATION_CHANGE)
-
-        if pressed_keys[K_DOWN]:
-            self.acelerate_all(-PLAYER_ACELERATION_CHANGE)
+            
+        if pressed_keys[K_0]:
+            self.power_room.activate_all_generator()
+        
+        if pressed_keys[K_9]:
+            self.power_room.increase_all_generator_usage(1)
 
     def events(self):
 
