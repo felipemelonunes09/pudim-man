@@ -3,10 +3,11 @@ from typing import Any
 from setting import *
 import pygame
 
-
+## this class contains an error
+## cooldown does not storege previus usage of cooldown so it return to state 0 in both cases
 class Cooldown(object):
 
-    def __init__(self, cooldown, method, cooldown_callback, pass_ref = True) -> None:
+    def __init__(self, cooldown, method, cooldown_callback=None) -> None:
                 
         self.__cooldown = cooldown
         self.__colldown_callback = cooldown_callback
@@ -22,8 +23,6 @@ class Cooldown(object):
                 return self.__colldown_callback(*args, **kwds)
 
         
-
-
 
     
 
