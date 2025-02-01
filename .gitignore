@@ -1,0 +1,38 @@
+# Bytecode compilado do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Configurações do ambiente virtual (venv)
+venv/
+.env/
+*.env
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+debug.log
+
+# Dependências instaladas (caso use pipenv)
+Pipfile
+Pipfile.lock
+
+# Arquivos de cache do editor
+.vscode/
+.idea/
+*.swp
+
+# Configurações específicas do SO
+.DS_Store
+Thumbs.db
+
+# Builds e artefatos de execução
+build/
+dist/
+
+# Configurações do pygame
+*.tga
+*.bak
+*.sav
+*.state
