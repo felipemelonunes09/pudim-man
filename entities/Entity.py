@@ -14,14 +14,18 @@ class Entity(pygame.sprite.Sprite):
         self.image = self.walkLeft[0]
         self.__currentAnimation = self.walkLeft
 
-        self.rect = self.image.get_rect(topleft=(1*globals.BLOCK_SIZE, 1*globals.BLOCK_SIZE))
+        self.rect = self.image.get_rect(center=(1*globals.BLOCK_SIZE, 2*globals.BLOCK_SIZE))
         self.direction = Direction.LEFT
         self.speed = 2
         self.frameIndex = 0
         self.animationSpeed = 5
         self.counter = 0 
+        self.lastY = self.rect.y
+        self.lastX = self.rect.x
 
     def move(self, direction: Direction):
+        self.lastX = self.rect.x
+        self.lastY = self.rect.y
         match direction:
             case Direction.RIGHT:
                 self.rect.x += self.speed

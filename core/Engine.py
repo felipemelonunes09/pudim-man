@@ -34,8 +34,7 @@ class Engine:
         tilesHited = pygame.sprite.spritecollide(self.player, self.map.tiles, False)
         for tile in tilesHited:
             if isinstance(tile, IColiable):
-                tile.onCollision(self.player)
-                print()
+                self.player.onCollision(tile)
 
         pygame.sprite.spritecollide(self.player, self.map.items, True)
     

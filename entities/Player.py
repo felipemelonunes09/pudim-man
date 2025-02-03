@@ -1,5 +1,7 @@
 import pygame
 from entities.ColiableEntity import ColiableEntity
+from entities.Entity import Entity
+from scenes.Tile import Tile
 from utils.helpers import Direction
 
 class Player(ColiableEntity):
@@ -25,3 +27,4 @@ class Player(ColiableEntity):
             return super().move(Direction.UP)
         elif keys[pygame.K_DOWN]:
             return super().move(Direction.DOWN)
+        
