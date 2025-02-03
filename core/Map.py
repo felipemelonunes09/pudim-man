@@ -9,9 +9,11 @@ class Map(pygame.sprite.Group):
         POINT = 0
         TILE = 1
 
-    def __init__(self, mapData: dict[str, dict]):
+    def __init__(self, mapData: dict[str, dict], blockSize: int = 32, blockColor: tuple[int, int, int] = (0,0,0)):
         super().__init__()
         self.mapData = mapData
+        self.blockSize = blockSize
+        self.blockColor = blockColor
         self.tiles      = pygame.sprite.Group()
         self.enemies    = pygame.sprite.Group()
         self.items      = pygame.sprite.Group() 
@@ -25,5 +27,5 @@ class Map(pygame.sprite.Group):
         for y, row in enumerate(map):
             for x, tile in enumerate(row):
                 if Map.Objects.TILE == 1:
-                    self.tiles.add(Tile(x * globals.BLOCK_SIZE, y * globals.BLOCK_SIZE, globals.BLOCK_SIZE, globals.BLOCK_SIZE, globals.BLOCK_COLOR))
+                    self.tiles.add(Tile(x * self.blockSize, y * self.blockSize, self.blockSize, self.blockSize, self.blockSize))
         return self.tiles

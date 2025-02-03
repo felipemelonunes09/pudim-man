@@ -1,11 +1,17 @@
 import pygame
+from entities.Entity import Entity
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self, *groups):
-        super().__init__(*groups)
+class Player(Entity):
+    def __init__(self, imagePath: str):
+        self.image = self.walkLeft[0]
+        self.rect = self.image.get_rect()
 
-    def draw():
-        pass
+        super().__init__(
+            walkRight   =[pygame.image.load(f"{imagePath}rifht/{i}.png") for i in range(1, 5)],
+            walkLeft    =[pygame.image.load(f"{imagePath}left/{i}.png") for i in range(1, 5)],
+            walkUp      =[pygame.image.load(f"{imagePath}up/{i}.png") for i in range(1, 5)],
+            walkDown    =[pygame.image.load(f"{imagePath}down/{i}.png") for i in range(1, 5)]
+        )
 
-    def update():
+    def draw(self):
         pass
