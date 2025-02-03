@@ -1,17 +1,27 @@
 import pygame
-from entities.Entity import Entity
+from entities.ColiableEntity import ColiableEntity
+from utils.helpers import Direction
 
-class Player(Entity):
+class Player(ColiableEntity):
     def __init__(self, imagePath: str):
-        self.image = self.walkLeft[0]
-        self.rect = self.image.get_rect()
-
         super().__init__(
-            walkRight   =[pygame.image.load(f"{imagePath}rifht/{i}.png") for i in range(1, 5)],
-            walkLeft    =[pygame.image.load(f"{imagePath}left/{i}.png") for i in range(1, 5)],
-            walkUp      =[pygame.image.load(f"{imagePath}up/{i}.png") for i in range(1, 5)],
-            walkDown    =[pygame.image.load(f"{imagePath}down/{i}.png") for i in range(1, 5)]
+            walkRight   =[pygame.transform.smoothscale(pygame.image.load(f"{imagePath}right/{i}.png"), (32, 32)) for i in range(0, 4)],
+            walkLeft    =[pygame.transform.smoothscale(pygame.image.load(f"{imagePath}left/{i}.png"), (32, 32)) for i in range(0, 4)],
+            walkUp      =[pygame.transform.smoothscale(pygame.image.load(f"{imagePath}up/{i}.png"), (32, 32)) for i in range(0, 4)],
+            walkDown    =[pygame.transform.smoothscale(pygame.image.load(f"{imagePath}down/{i}.png"), (32, 32)) for i in range(0, 4)],
         )
 
-    def draw(self):
-        pass
+    def update(self):
+        keys = pygame.key.get_pressed()
+        self.move(keys)
+        return super().update()
+    
+    def move(self, keys: pygame.key.ScancodeWrapper):
+        if keys[pygame.K_LEFT]:
+            return super().move(Direction.LEFT)
+        elif keys[pygame.K_RIGHT]:
+            return super().move(Direction.RIGHT)
+        elif keys[pygame.K_UP]:
+            return super().move(Direction.UP)
+        elif keys[pygame.K_DOWN]:
+            return super().move(Direction.DOWN)

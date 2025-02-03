@@ -1,4 +1,5 @@
 import pygame
+from config import globals
 from utils.helpers import Direction
 
 class Entity(pygame.sprite.Sprite):
@@ -13,12 +14,28 @@ class Entity(pygame.sprite.Sprite):
         self.image = self.walkLeft[0]
         self.__currentAnimation = self.walkLeft
 
+        self.rect = self.image.get_rect(topleft=(1*globals.BLOCK_SIZE, 1*globals.BLOCK_SIZE))
         self.direction = Direction.LEFT
-        self.speed = 5
+        self.speed = 2
         self.frameIndex = 0
         self.animationSpeed = 5
         self.counter = 0 
 
+    def move(self, direction: Direction):
+        match direction:
+            case Direction.RIGHT:
+                self.rect.x += self.speed
+                self.__currentAnimation = self.walkRight
+            case Direction.LEFT:
+                self.rect.x -= self.speed
+                self.__currentAnimation = self.walkLeft
+            case Direction.UP:
+                self.rect.y -= self.speed
+                self.__currentAnimation = self.walkUp
+            case Direction.DOWN:
+                self.rect.y += self.speed
+                self.__currentAnimation = self.walkDown
+    
     def draw(self):
         pass
 
@@ -26,6 +43,6 @@ class Entity(pygame.sprite.Sprite):
         self.counter += 1
         if self.counter >= self.animationSpeed:
             self.counter = 0
-            self.frameIndex += (self.frameIndex + 1) % len(self.walkLeft)
-        
+            self.frameIndex = (self.frameIndex + 1) % len(self.__currentAnimation)
+
         self.image = self.__currentAnimation[self.frameIndex]
