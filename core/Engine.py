@@ -4,19 +4,38 @@ from config import globals
 from core.Map import Map
 from core.IColiable import IColiable
 from entities.Player import Player
+from entities.enemy.Pan import Pan
+from enum import Enum
 
 class Engine:
+    class EnemiesMap(Enum):
+        PAN     = 0
+        JELLY   = 1
+
     def __init__(self):
         self.screen     = pygame.display.set_mode(globals.SCREEN_SIZE)
         self.clock      = pygame.time.Clock()
+        
+        self.enemies   =  pygame.sprite.Group()
         self.allSprites = pygame.sprite.Group()
+        self.levelConfig = Engine.loadMap(globals.LEVEL_1)
 
-        self.map        = Map(Engine.loadMap(globals.LEVEL_1), blockSize=globals.BLOCK_SIZE)
-        self.player     = Player(globals.PLAYER_IMAGE_DIR)
+        self.map        = Map(self.levelConfig, globals.BLOCK_SIZE)
+        self.player     = Player(position=(1, 1))
 
         self.running    = True
-        self.allSprites.add(self.map)
-        self.allSprites.add(self.player)
+
+        for enemy in self.levelConfig["enemies"]:
+            type = enemy["type"]
+            position = enemy["position"]
+            match type:
+                case Engine.EnemiesMap.PAN.value:
+                    self.enemies.add(Pan(position=(position[0], position[1]), target=self.player))
+                case Engine.EnemiesMap.JELLY.value:
+                    pass
+                    #self.enemies.add(Jelly(globals.JELLY_IMAGE_DIR, (position[0], position[1])))
+        
+        self.allSprites.add(self.map, self.player, self.enemies)
 
     def start(self):
         while self.running:

@@ -4,8 +4,8 @@ from scenes.Tile import Tile
 
 
 class ColiableEntity(Entity, IColiable):
-    def __init__(self, walkRight: list, walkLeft: list, walkUp: list, walkDown: list):
-        super().__init__(walkRight, walkLeft, walkUp, walkDown)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     def onCollision(self, entity: Entity):
         if isinstance(entity, Tile):

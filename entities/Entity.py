@@ -4,7 +4,7 @@ from utils.helpers import Direction
 
 class Entity(pygame.sprite.Sprite):
 
-    def __init__(self, walkRight: list, walkLeft: list, walkUp: list, walkDown: list):
+    def __init__(self, walkRight: list, walkLeft: list, walkUp: list, walkDown: list, position: tuple[int, int]):
         super().__init__()
 
         self.walkRight = walkRight
@@ -14,7 +14,7 @@ class Entity(pygame.sprite.Sprite):
         self.image = self.walkLeft[0]
         self.__currentAnimation = self.walkLeft
 
-        self.rect = self.image.get_rect(center=(1*globals.BLOCK_SIZE, 2*globals.BLOCK_SIZE))
+        self.rect = self.image.get_rect(center=(position[0]*globals.BLOCK_SIZE, position[1]*globals.BLOCK_SIZE))
         self.direction = Direction.LEFT
         self.speed = 2
         self.frameIndex = 0
@@ -50,3 +50,6 @@ class Entity(pygame.sprite.Sprite):
             self.frameIndex = (self.frameIndex + 1) % len(self.__currentAnimation)
 
         self.image = self.__currentAnimation[self.frameIndex]
+
+    def getCurrentAnimation(self) -> list:
+        return self.__currentAnimation

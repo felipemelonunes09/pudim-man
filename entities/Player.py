@@ -1,16 +1,17 @@
 import pygame
+from config.sprites import Sprites
 from entities.ColiableEntity import ColiableEntity
-from entities.Entity import Entity
-from scenes.Tile import Tile
 from utils.helpers import Direction
 
 class Player(ColiableEntity):
-    def __init__(self, imagePath: str):
+    def __init__(self, *args, **kwargs):
         super().__init__(
-            walkRight   =[pygame.transform.smoothscale(pygame.image.load(f"{imagePath}right/{i}.png"), (32, 32)) for i in range(0, 4)],
-            walkLeft    =[pygame.transform.smoothscale(pygame.image.load(f"{imagePath}left/{i}.png"), (32, 32)) for i in range(0, 4)],
-            walkUp      =[pygame.transform.smoothscale(pygame.image.load(f"{imagePath}up/{i}.png"), (32, 32)) for i in range(0, 4)],
-            walkDown    =[pygame.transform.smoothscale(pygame.image.load(f"{imagePath}down/{i}.png"), (32, 32)) for i in range(0, 4)],
+            walkRight   = Sprites.Pudim.walkRight,
+            walkLeft    = Sprites.Pudim.walkLeft,
+            walkUp      = Sprites.Pudim.walkUp,
+            walkDown    = Sprites.Pudim.walkDown,
+            *args, 
+            **kwargs
         )
 
     def update(self):

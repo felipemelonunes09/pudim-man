@@ -6,6 +6,7 @@ FPS = 60
 # harded coded paths 
 ASSETS_IMAGE_DIR = "./assets/images"
 PLAYER_IMAGE_DIR = f"{ASSETS_IMAGE_DIR}/pudim/"
+PAN_IMAGE_DIR =  f"{ASSETS_IMAGE_DIR}/pan/"
 
 MAPS_DIR = "data/maps"
 LEVEL_1 = f"{MAPS_DIR}/level_1.json"
