@@ -11,3 +11,8 @@ class Jelly(Enemy):
             *a, 
             **k
         )
+
+    def onCollision(self, entity):
+        print(entity)
+        return super().onCollision(entity)
+    

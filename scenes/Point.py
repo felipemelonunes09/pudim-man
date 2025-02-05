@@ -1,6 +1,8 @@
 import pygame
+from core.IColiable import IColiable
 
-class Point(pygame.sprite.Sprite):
+
+class Point(pygame.sprite.Sprite, IColiable):
     def __init__(self, x: int, y: int, radius: int, color: tuple[int, int, int]):
         super().__init__()
         self.image = pygame.Surface((radius * 2, radius * 2), pygame.SRCALPHA)  # Superfície transparente

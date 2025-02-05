@@ -17,7 +17,8 @@ class Engine:
         self.screen     = pygame.display.set_mode(globals.SCREEN_SIZE)
         self.clock      = pygame.time.Clock()
         
-        self.enemies   =  pygame.sprite.Group()
+        self.entities   = pygame.sprite.Group()
+        self.enemies    = pygame.sprite.Group()
         self.allSprites = pygame.sprite.Group()
         self.levelConfig = Engine.loadMap(globals.LEVEL_1)
 
@@ -35,7 +36,8 @@ class Engine:
                 case Engine.EnemiesMap.JELLY.value:
                     self.enemies.add(Jelly(position=(position[0], position[1]), target=self.player))
         
-        self.allSprites.add(self.map, self.player, self.enemies)
+        self.entities.add(self.player, self.enemies)
+        self.allSprites.add(self.map, self.player, self.enemies, self.entities)
 
     def start(self):
         while self.running:
@@ -50,12 +52,21 @@ class Engine:
             self.clock.tick(globals.FPS)
     
     def handleCollisions(self):
-        tilesHited = pygame.sprite.spritecollide(self.player, self.map.tiles, False)
-        for tile in tilesHited:
-            if isinstance(tile, IColiable):
-                self.player.onCollision(tile)
+        
+        collisions = pygame.sprite.groupcollide(self.entities, self.map.tiles, False, False)
+        for collision in collisions.items():
+            collisionEntityA: IColiable = collision[0]
+            collisionEntityB: object = collision[1] if not isinstance(collision[1], list) else collision[1][0]
+            
+            collisionEntityA.onCollision(collisionEntityB)
 
-        pygame.sprite.spritecollide(self.player, self.map.items, True)
+        #colli = pygame.sprite.spritecollide(self.player, self.map.tiles, False)
+
+        #for tile in tilesHited:
+        #    if isinstance(tile, IColiable):
+        #        self.player.onCollision(tile)
+
+        #pygame.sprite.spritecollide(self.player, self.map.items, True)
     
 
     @staticmethod

@@ -10,13 +10,21 @@ class Enemy(ColiableEntity, metaclass=ABCMeta):
         super().__init__(*args, **kwargs)
 
     def update(self):
+        
         tPos = self.getTargetPosition()
 
-        self.move(Direction.RIGHT) if tPos[0] > self.lastX else self.move(Direction.LEFT)
-        self.move(Direction.DOWN) if tPos[1] > self.lastY else self.move(Direction.UP)
+        if tPos[0] > self.rect.x:
+            self.move(Direction.RIGHT)
+        elif tPos[0] < self.rect.x:
+            self.move(Direction.LEFT)
+        elif tPos[1] > self.rect.y:
+            self.move(Direction.DOWN)
+        else:
+            self.move(Direction.UP)
 
-        if tPos[1] > self.lastY:
-            self.move
+        #self.move(Direction.RIGHT) if tPos[0] > self.rect.x else self.move(Direction.LEFT)
+        #self.move(Direction.DOWN) if tPos[1] > self.rect.y else self.move(Direction.UP)
+
         super().update()
 
     def getTargetPosition(self) -> tuple[int, int]:
