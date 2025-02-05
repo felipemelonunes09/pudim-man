@@ -5,6 +5,7 @@ from core.Map import Map
 from core.IColiable import IColiable
 from entities.Player import Player
 from entities.enemy.Pan import Pan
+from entities.enemy.Jelly import Jelly
 from enum import Enum
 
 class Engine:
@@ -32,8 +33,7 @@ class Engine:
                 case Engine.EnemiesMap.PAN.value:
                     self.enemies.add(Pan(position=(position[0], position[1]), target=self.player))
                 case Engine.EnemiesMap.JELLY.value:
-                    pass
-                    #self.enemies.add(Jelly(globals.JELLY_IMAGE_DIR, (position[0], position[1])))
+                    self.enemies.add(Jelly(position=(position[0], position[1]), target=self.player))
         
         self.allSprites.add(self.map, self.player, self.enemies)
 

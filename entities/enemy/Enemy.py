@@ -12,7 +12,6 @@ class Enemy(ColiableEntity, metaclass=ABCMeta):
         tPos = self.getTargetPosition()
         super().update()
 
-
     def getTargetPosition(tPos) -> tuple[int, int]:
         return (0,1)
 
