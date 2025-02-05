@@ -1,6 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from entities.ColiableEntity import ColiableEntity
 from entities.Entity import Entity
+from utils.helpers import Direction
 
 class Enemy(ColiableEntity, metaclass=ABCMeta):
 
@@ -10,9 +11,15 @@ class Enemy(ColiableEntity, metaclass=ABCMeta):
 
     def update(self):
         tPos = self.getTargetPosition()
+
+        self.move(Direction.RIGHT) if tPos[0] > self.lastX else self.move(Direction.LEFT)
+        self.move(Direction.DOWN) if tPos[1] > self.lastY else self.move(Direction.UP)
+
+        if tPos[1] > self.lastY:
+            self.move
         super().update()
 
-    def getTargetPosition(tPos) -> tuple[int, int]:
-        return (0,1)
+    def getTargetPosition(self) -> tuple[int, int]:
+        return (self.__target.lastX,self.__target.lastY)
 
         

@@ -1,6 +1,5 @@
 from entities.enemy.Enemy import Enemy
 from config.sprites import Sprites
-import pygame
 
 class Jelly(Enemy):
     def __init__(self, *a, **k):
