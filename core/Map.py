@@ -35,4 +35,6 @@ class Map(pygame.sprite.Group):
                         self.items.add(Point(x * self.blockSize, y * self.blockSize, self.blockSize // 4, globals.SPECIAL_COLOR))
                     case Map.Objects.TILE.value:
                         self.tiles.add(Tile(x * self.blockSize, y * self.blockSize, self.blockSize, self.blockSize, globals.BLOCK_COLOR))
-               
+    
+    def getRowSize(self) -> int:
+        return len(self.mapData["map"][0])

@@ -1,7 +1,9 @@
 
-SCREEN_SIZE = (780, 580)
+SCREEN_SIZE = (950, 580)
 SCREEN_COLOR = (0, 0, 0)
 FPS = 60
+FONT = "Arial"
+FONT_SIZE = 32
 
 # harded coded paths 
 ASSETS_IMAGE_DIR    = "./assets/images"
@@ -16,4 +18,6 @@ BLOCK_SIZE = 40
 BLOCK_COLOR = "blue"
 POINT_COLOR = "yellow"
 SPECIAL_COLOR = "white"
+
+
 
