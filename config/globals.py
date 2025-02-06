@@ -1,9 +1,9 @@
 
 SCREEN_SIZE = (950, 580)
 SCREEN_COLOR = (0, 0, 0)
-TEXT_COLOR = (255, 255, 255)
+TEXT_COLOR = "yellow"
 FPS = 60
-FONT = "Arial"
+FONT = None
 FONT_SIZE = 32
 
 # harded coded paths 
