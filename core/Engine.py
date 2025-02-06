@@ -17,7 +17,7 @@ class Engine:
             self.updatePointText(0)
 
         def updatePointText(self, number: int) -> None:
-            self.pointText = self.font.render(f"Points: {number}", True, globals.SCREEN_COLOR)
+            self.pointText = self.font.render(f"Points: {number}", True, globals.TEXT_COLOR)
             self.pointTextRect = self.pointText.get_rect(center=(self.anchorX*globals.BLOCK_SIZE + globals.BLOCK_SIZE + self.offset, 20)) 
 
         def draw(self, surface: pygame.Surface):
@@ -84,9 +84,8 @@ class Engine:
 
         collisions = pygame.sprite.spritecollide(self.player, self.map.items, True)
         for colision in collisions:
-            print(self.pointsCount)
-            print("==========")
             self.pointsCount += 1
+            self.display.updatePointText(self.pointsCount)
 
     @staticmethod
     def loadMap(mapFilePath: str):
