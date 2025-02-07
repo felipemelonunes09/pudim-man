@@ -1,6 +1,7 @@
 import pygame
 from config.sprites import Sprites
 from entities.ColiableEntity import ColiableEntity
+from entities.enemy.Enemy import Enemy
 from utils.helpers import Direction
 
 class Player(ColiableEntity):
@@ -41,7 +42,6 @@ class Player(ColiableEntity):
         if self.__isPowered:
             elapsedTime = pygame.time.get_ticks() - self.__powerStart
             self.__remainingPowertime = max(0, (self.__powerDuration - elapsedTime) // 1000)
-            print(self.__remainingPowertime)
             if elapsedTime >= self.__powerDuration:
                 self.setIsPowered(False)
         return super().update()
@@ -58,6 +58,7 @@ class Player(ColiableEntity):
         
     def onCollision(self, entity):
         if isinstance(entity, Enemy) and not self.IsPowered():
+            self.__alive = False
             self.kill()
         return super().onCollision(entity)
         
