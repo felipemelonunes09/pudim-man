@@ -92,14 +92,21 @@ class Engine:
                     self.handleCollisions()
                     if self.player.IsPowered():
                         self.display.updateCountDownText(self.player.getRemainingPowerTime())
+                    ## Change the game state
+                    if not self.player.isAlive() or self.map.getItemsQuantity() == 0:
+                        self.stateManager.setState(StateManager.State.ENDGAME)
                 case StateManager.State.QUESTIONING:
                     self.questionManager.draw(self.screen)
                     self.questionManager.update()
                     completed, correct = self.questionManager.testCompletion()
                     if completed:
                         self.stateManager.setState(StateManager.State.RUNNING)
-                        self.player.setIsPowered(True)
-                        self.display.updateCountDownText(self.player.getPowerDuration())
+                        if correct:
+                            self.player.setIsPowered(True)
+                            self.display.updateCountDownText(self.player.getPowerDuration())
+                case StateManager.State.ENDGAME:
+                    self.running = False
+                    return 
 
             pygame.display.flip()
             self.clock.tick(globals.FPS)
@@ -110,8 +117,8 @@ class Engine:
         ## With this abstraction into future work, collision can be resolved by a single document or object
         ## containing the correlation with collisions
             ## 1 -> Object Colision that needs to be resolved inside the onCollision() method
-                ## 1.1 -> One way collision: A collision that is resolved by the first entity
-                ## 1.2 -> Two way collision: A colllision that is resolved by both entitys
+                ## 1.1 -> One way collision: A collision that is resolved by the first entity (allow group or sprite)
+                ## 1.2 -> Two way collision: A colllision that is resolved by both entitys (allow group or sprite)
             ## 2 -> Engine Colision that is resolved inside the method handleCollisions() or associated methods
         
         ##
@@ -119,7 +126,7 @@ class Engine:
         ##
 
         ## 1.1
-        collisions = pygame.sprite.groupcollide(self.entities, self.map.tiles, False, False)
+        collisions: list[tuple[IColiable, object]] = pygame.sprite.groupcollide(self.entities, self.map.tiles, False, False)
         for collision in collisions.items():
             collisionEntityA: IColiable = collision[0]
             collisionEntityB: object = collision[1] if not isinstance(collision[1], list) else collision[1][0]
@@ -127,13 +134,16 @@ class Engine:
             collisionEntityA.onCollision(collisionEntityB)
 
         ## 1.2
-        collisions = pygame.sprite.groupcollide(self.player, self.entities, False, False)
-        for collision in collisions.items():
-            collisionEntityA: IColiable = collision[0]
-            collisionEntityB: IColiable = collision[1] if not isinstance(collision[1], list) else collision[1][0]
+        collisions: list[IColiable] = pygame.sprite.spritecollide(self.player, self.enemies, False)
+        for collision in collisions: 
+            self.player.onCollision(collision)
+            collision.onCollision(self.player)
+
+            #collisionEntityA: IColiable = collision[0]
+            #collisionEntityB: IColiable = collision[1] if not isinstance(collision[1], list) else collision[1][0]
             
-            collisionEntityA.onCollision(collisionEntityB)
-            collisionEntityB.onCollision(collisionEntityA)
+            #collisionEntityA.onCollision(collisionEntityB)
+            #collisionEntityB.onCollision(collisionEntityA)
         ##
         ## Engine Colisions
         ##
@@ -142,7 +152,6 @@ class Engine:
         for colision in collisions:
             self.pointsCount += 1
             self.display.updatePointText(self.pointsCount)
-
             if isinstance(colision, QuestionPoint):
                 self.stateManager.setState(StateManager.State.QUESTIONING)
                 self.questionManager.setQuestion(colision.getQuestion())
