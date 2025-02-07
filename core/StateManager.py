@@ -6,6 +6,7 @@ class StateManager():
         RUNNING = 1
         QUESTIONING = 2
         EXITING = 3
+        ENDGAME = 4
         
     def __init__(self, state: State):
         self.__state = state
