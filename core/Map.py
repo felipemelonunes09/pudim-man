@@ -43,6 +43,8 @@ class Map(pygame.sprite.Group):
                     case Map.Objects.TILE.value:
                         self.tiles.add(Tile(x * self.blockSize, y * self.blockSize, self.blockSize, self.blockSize, globals.BLOCK_COLOR))
 
+    def getItemsQuantity(self) -> int:
+        return len(self.items)
     def getRowSize(self) -> int:
         return len(self.levelData["map"][0])
     
