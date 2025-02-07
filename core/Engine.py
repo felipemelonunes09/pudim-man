@@ -3,9 +3,12 @@ import pygame
 from config import globals
 from core.Map import Map
 from core.IColiable import IColiable
+from core.StateManager import StateManager
+from core.QuestionDisplay import QuestionDisplay
 from entities.Player import Player
 from entities.enemy.Pan import Pan
 from entities.enemy.Jelly import Jelly
+from scenes.Point import QuestionPoint
 from enum import Enum
 
 class Engine:
@@ -35,14 +38,20 @@ class Engine:
         self.enemies    = pygame.sprite.Group()
         self.allSprites = pygame.sprite.Group()
 
-        self.levelConfig = Engine.loadMap(globals.LEVEL_1)
+        self.levelConfig  = Engine.loadMap(globals.LEVEL_1)
+        self.stateManager = StateManager(state=StateManager.State.RUNNING)
 
-        self.map        = Map(self.levelConfig, globals.BLOCK_SIZE)
-        self.display    = Engine.Display(globals.FONT, globals.FONT_SIZE, anchorX=self.map.getRowSize())
-        self.player     = Player(position=(1, 1))
-
+        self.map              = Map(self.levelConfig, globals.BLOCK_SIZE)
+        self.display          = Engine.Display(globals.FONT, globals.FONT_SIZE, anchorX=self.map.getRowSize())
+        self.questionManager  = QuestionDisplay(globals.FONT, globals.FONT_SIZE)
+        # harded coded position, it shoud be defined in the level data
+        self.player           = Player(position=(10, 9))
+        
         self.running    = True
         self.pointsCount = 0
+
+        ### Vars to set the game mechanism
+        self.displayQuestion = False
 
         for enemy in self.levelConfig["enemies"]:
             type = enemy["type"]
@@ -61,20 +70,32 @@ class Engine:
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT:
                     self.running = False
+
             self.screen.fill(globals.SCREEN_COLOR)
-            self.allSprites.update()
             self.allSprites.draw(self.screen)
             self.display.draw(self.screen)
-            self.handleCollisions()
+            
+            match self.stateManager.getState():
+                case StateManager.State.RUNNING:
+                    self.allSprites.update()
+                    self.handleCollisions()
+                case StateManager.State.QUESTIONING:
+                    self.questionManager.draw(self.screen)
+                    self.questionManager.update()
+
             pygame.display.flip()
             self.clock.tick(globals.FPS)
     
     def handleCollisions(self):
 
-        ## In this game are two type of colission
+        ## In this game there are two type of colission
         ## 1 -> Object Colision that needs to be resolved inside the onCollision() method
         ## 2 -> Engine Colision that is resolved inside the method handleCollisions()
         
+        ##
+        ## Objects Colisions 
+        ##
+
         collisions = pygame.sprite.groupcollide(self.entities, self.map.tiles, False, False)
         for collision in collisions.items():
             collisionEntityA: IColiable = collision[0]
@@ -82,12 +103,20 @@ class Engine:
             
             collisionEntityA.onCollision(collisionEntityB)
 
+        ##
+        ## Engine Colisions
+        ##
+
         collisions = pygame.sprite.spritecollide(self.player, self.map.items, True)
         for colision in collisions:
             self.pointsCount += 1
             self.display.updatePointText(self.pointsCount)
 
+            if isinstance(colision, QuestionPoint):
+                self.stateManager.setState(StateManager.State.QUESTIONING)
+                self.questionManager.setQuestion(colision.getQuestion())
+
     @staticmethod
     def loadMap(mapFilePath: str):
-        with open(mapFilePath, "r") as file:
+        with open(mapFilePath, "r", encoding="utf-8") as file:
             return json.load(file)

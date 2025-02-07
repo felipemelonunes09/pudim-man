@@ -1,6 +1,6 @@
 import pygame
 from core.IColiable import IColiable
-
+from core.QuestionDisplay import Question
 
 class Point(pygame.sprite.Sprite, IColiable):
     def __init__(self, x: int, y: int, radius: int, color: tuple[int, int, int]):
@@ -10,6 +10,10 @@ class Point(pygame.sprite.Sprite, IColiable):
         pygame.draw.circle(self.image, color, (radius, radius), radius)  
         self.rect = self.image.get_rect(center=(x, y))  
 
-class SuperPoint(Point):
-    def __init__(self, *args, **k):
+class QuestionPoint(Point):
+    def __init__(self, question: Question, *args, **k):
         super().__init__(*args, **k)
+        self.__question = question
+
+    def getQuestion(self) -> Question:
+        return self.__question

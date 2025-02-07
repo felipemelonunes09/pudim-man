@@ -39,9 +39,6 @@ class Entity(pygame.sprite.Sprite):
             case Direction.DOWN:
                 self.rect.y += self.speed
                 self.__currentAnimation = self.walkDown
-    
-    def draw(self):
-        pass
 
     def update(self):
         self.counter += 1

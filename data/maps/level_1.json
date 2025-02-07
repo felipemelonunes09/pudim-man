@@ -25,5 +25,27 @@
             "type": 1,
             "position": [9, 5]
         }
+    ],
+    "questions": [
+        {
+            "question": "Qual é o estado físico da água quando está congelada?",
+            "answers": ["Líquido", "Sólido", "Gasoso", "Plasma"],
+            "rightIndex": 1
+        },
+        {
+            "question": "Qual desses objetos é feito principalmente de metal?",
+            "answers": ["Borracha", "Garrafa plástica", "Colher de aço", "Madeira"],
+            "rightIndex": 2
+        },
+        {
+            "question": "Qual gás as plantas usam para fazer a fotossíntese?",
+            "answers": ["Oxigênio", "Hidrogênio", "Nitrogênio", "Gás Carbônico"],
+            "rightIndex": 3
+        },
+        {
+            "question": "Qual desses líquidos é uma substância pura?",
+            "answers": ["Leite", "Refrigerante", "Agua destilada", "Suco de laranja"],
+            "rightIndex": 3
+        }
     ]
 }

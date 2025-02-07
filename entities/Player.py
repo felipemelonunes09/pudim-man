@@ -5,6 +5,7 @@ from utils.helpers import Direction
 
 class Player(ColiableEntity):
     def __init__(self, *args, **kwargs):
+        self.__isPowered = False
         super().__init__(
             walkRight   = Sprites.Pudim.walkRight,
             walkLeft    = Sprites.Pudim.walkLeft,
@@ -13,6 +14,12 @@ class Player(ColiableEntity):
             *args, 
             **kwargs
         )
+
+    def getIsPowered(self) -> bool:
+        return self.__isPowered
+    
+    def setIsPowered(self, powered: bool) -> None:
+        self.__isPowered = powered
 
     def update(self):
         keys = pygame.key.get_pressed()

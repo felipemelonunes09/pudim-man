@@ -22,9 +22,6 @@ class Enemy(ColiableEntity, metaclass=ABCMeta):
         else:
             self.move(Direction.UP)
 
-        #self.move(Direction.RIGHT) if tPos[0] > self.rect.x else self.move(Direction.LEFT)
-        #self.move(Direction.DOWN) if tPos[1] > self.rect.y else self.move(Direction.UP)
-
         super().update()
 
     def getTargetPosition(self) -> tuple[int, int]:

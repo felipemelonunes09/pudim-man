@@ -13,6 +13,5 @@ class Jelly(Enemy):
         )
 
     def onCollision(self, entity):
-        print(entity)
         return super().onCollision(entity)
     
