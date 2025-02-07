@@ -21,13 +21,24 @@ class Engine:
             self.offset = 20 
             self.anchorX = anchorX
             self.updatePointText(0)
+            self.updateCountDownText(0)
+            self.__showCountDownText = False
 
-        def updatePointText(self, number: int) -> None:
+        def updatePointText(self, number: object) -> None:
             self.pointText = self.font.render(f"Points: {number}", True, globals.TEXT_COLOR)
-            self.pointTextRect = self.pointText.get_rect(center=(self.anchorX*globals.BLOCK_SIZE + globals.BLOCK_SIZE + self.offset, 20)) 
+            self.pointTextRect = self.pointText.get_rect(topleft=(self.getX(), 20)) 
+
+        def updateCountDownText(self, str: object) -> None:
+            self.countDownText = self.font.render(f"Powered time: {str}s", True, globals.TEXT_COLOR)
+            self.countDownTextRect = self.countDownText.get_rect(topleft=(self.getX(), 45))
 
         def draw(self, surface: pygame.Surface):
             surface.blit(self.pointText, self.pointTextRect)
+            surface.blit(self.countDownText, self.countDownTextRect)
+
+        def getX(self):
+            return self.anchorX*globals.BLOCK_SIZE
+
 
 
     def __init__(self):
@@ -79,6 +90,8 @@ class Engine:
                 case StateManager.State.RUNNING:
                     self.allSprites.update()
                     self.handleCollisions()
+                    if self.player.IsPowered():
+                        self.display.updateCountDownText(self.player.getRemainingPowerTime())
                 case StateManager.State.QUESTIONING:
                     self.questionManager.draw(self.screen)
                     self.questionManager.update()
@@ -86,20 +99,26 @@ class Engine:
                     if completed:
                         self.stateManager.setState(StateManager.State.RUNNING)
                         self.player.setIsPowered(True)
+                        self.display.updateCountDownText(self.player.getPowerDuration())
 
             pygame.display.flip()
             self.clock.tick(globals.FPS)
-    
+
     def handleCollisions(self):
 
         ## In this game there are two type of colission
-        ## 1 -> Object Colision that needs to be resolved inside the onCollision() method
-        ## 2 -> Engine Colision that is resolved inside the method handleCollisions()
+        ## With this abstraction into future work, collision can be resolved by a single document or object
+        ## containing the correlation with collisions
+            ## 1 -> Object Colision that needs to be resolved inside the onCollision() method
+                ## 1.1 -> One way collision: A collision that is resolved by the first entity
+                ## 1.2 -> Two way collision: A colllision that is resolved by both entitys
+            ## 2 -> Engine Colision that is resolved inside the method handleCollisions() or associated methods
         
         ##
         ## Objects Colisions 
         ##
 
+        ## 1.1
         collisions = pygame.sprite.groupcollide(self.entities, self.map.tiles, False, False)
         for collision in collisions.items():
             collisionEntityA: IColiable = collision[0]
@@ -107,6 +126,14 @@ class Engine:
             
             collisionEntityA.onCollision(collisionEntityB)
 
+        ## 1.2
+        collisions = pygame.sprite.groupcollide(self.player, self.entities, False, False)
+        for collision in collisions.items():
+            collisionEntityA: IColiable = collision[0]
+            collisionEntityB: IColiable = collision[1] if not isinstance(collision[1], list) else collision[1][0]
+            
+            collisionEntityA.onCollision(collisionEntityB)
+            collisionEntityB.onCollision(collisionEntityA)
         ##
         ## Engine Colisions
         ##
