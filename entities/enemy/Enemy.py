@@ -2,6 +2,7 @@ from abc import ABCMeta, abstractmethod
 from entities.ColiableEntity import ColiableEntity
 from entities.Entity import Entity
 from utils.helpers import Direction
+from typing import TYPE_CHECKING
 
 class Enemy(ColiableEntity, metaclass=ABCMeta):
 
@@ -27,4 +28,8 @@ class Enemy(ColiableEntity, metaclass=ABCMeta):
     def getTargetPosition(self) -> tuple[int, int]:
         return (self.__target.lastX,self.__target.lastY)
 
-        
+    def onCollision(self, entity):
+        from entities.Player import Player
+        if isinstance(entity, Player) and entity.IsPowered():
+            self.kill()
+        return super().onCollision(entity)
