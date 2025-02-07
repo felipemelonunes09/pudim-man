@@ -50,6 +50,4 @@ class Entity(pygame.sprite.Sprite):
 
     def getCurrentAnimation(self) -> list:
         return self.__currentAnimation
-    
-    def kill(self) -> None:
-        pass
+   
