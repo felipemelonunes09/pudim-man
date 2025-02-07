@@ -1,6 +1,6 @@
 import pygame
 from core.IColiable import IColiable
-from core.QuestionDisplay import Question
+from core.QuestionTrial import Question
 
 class Point(pygame.sprite.Sprite, IColiable):
     def __init__(self, x: int, y: int, radius: int, color: tuple[int, int, int]):

@@ -4,7 +4,7 @@ from config import globals
 from core.Map import Map
 from core.IColiable import IColiable
 from core.StateManager import StateManager
-from core.QuestionDisplay import QuestionDisplay
+from core.QuestionTrial import QuestionTrial
 from entities.Player import Player
 from entities.enemy.Pan import Pan
 from entities.enemy.Jelly import Jelly
@@ -12,6 +12,9 @@ from scenes.Point import QuestionPoint
 from enum import Enum
 
 class Engine:
+    class EnemiesMap(Enum):
+        PAN     = 0
+        JELLY   = 1
     class Display:
         def __init__(self, font: str, size: int, anchorX: int):
             self.font   = pygame.font.SysFont(font, size)
@@ -26,9 +29,6 @@ class Engine:
         def draw(self, surface: pygame.Surface):
             surface.blit(self.pointText, self.pointTextRect)
 
-    class EnemiesMap(Enum):
-        PAN     = 0
-        JELLY   = 1
 
     def __init__(self):
         self.screen     = pygame.display.set_mode(globals.SCREEN_SIZE)
@@ -43,7 +43,7 @@ class Engine:
 
         self.map              = Map(self.levelConfig, globals.BLOCK_SIZE)
         self.display          = Engine.Display(globals.FONT, globals.FONT_SIZE, anchorX=self.map.getRowSize())
-        self.questionManager  = QuestionDisplay(globals.FONT, globals.FONT_SIZE)
+        self.questionManager  = QuestionTrial(globals.FONT, globals.FONT_SIZE)
         # harded coded position, it shoud be defined in the level data
         self.player           = Player(position=(10, 9))
         
@@ -82,6 +82,10 @@ class Engine:
                 case StateManager.State.QUESTIONING:
                     self.questionManager.draw(self.screen)
                     self.questionManager.update()
+                    completed, correct = self.questionManager.testCompletion()
+                    if completed:
+                        self.stateManager.setState(StateManager.State.RUNNING)
+                        self.player.setIsPowered(True)
 
             pygame.display.flip()
             self.clock.tick(globals.FPS)
