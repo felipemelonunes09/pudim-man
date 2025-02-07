@@ -2,7 +2,6 @@ from entities.Entity import Entity
 from core.IColiable import IColiable
 from scenes.Tile import Tile
 
-
 class ColiableEntity(Entity, IColiable):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
