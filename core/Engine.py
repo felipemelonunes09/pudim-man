@@ -22,7 +22,6 @@ class Engine:
             self.anchorX = anchorX
             self.updatePointText(0)
             self.updateCountDownText(0)
-            self.__showCountDownText = False
 
         def updatePointText(self, number: object) -> None:
             self.pointText = self.font.render(f"Points: {number}", True, globals.TEXT_COLOR)
@@ -69,9 +68,9 @@ class Engine:
             position = enemy["position"]
             match type:
                 case Engine.EnemiesMap.PAN.value:
-                    self.enemies.add(Pan(position=(position[0], position[1]), target=self.player))
+                    self.enemies.add(Pan(position=(position[0], position[1]), target=self.player, mapData=self.map.getMapData()))
                 case Engine.EnemiesMap.JELLY.value:
-                    self.enemies.add(Jelly(position=(position[0], position[1]), target=self.player))
+                    self.enemies.add(Jelly(position=(position[0], position[1]), target=self.player, mapData=self.map.getMapData()))
         
         self.entities.add(self.player, self.enemies)
         self.allSprites.add(self.map, self.player, self.enemies, self.entities)

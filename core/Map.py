@@ -45,6 +45,10 @@ class Map(pygame.sprite.Group):
 
     def getItemsQuantity(self) -> int:
         return len(self.items)
+    
+    def getMapData(self) -> list[list[int]]:
+        return self.levelData["map"]
+    
     def getRowSize(self) -> int:
         return len(self.levelData["map"][0])
     

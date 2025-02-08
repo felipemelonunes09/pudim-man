@@ -16,16 +16,20 @@
         [1, 2, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
-    "enemies": [
-        {
-            "type": 0,
-            "position": [8, 5]
-        },
-        {
-            "type": 1,
-            "position": [9, 5]
-        }
-    ],
+    "enemies": {
+        "entities": [
+            {
+                "type": 0,
+                "position": [8, 5]
+            },
+            {
+                "type": 2,
+                "position": [9, 5]
+            }
+        ],
+        "maxNumber": 3,
+        "respaw": true
+    },
     "questions": [
         {
             "question": "Qual é o estado físico da água quando está congelada?",
