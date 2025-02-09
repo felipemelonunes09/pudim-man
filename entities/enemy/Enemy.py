@@ -1,68 +1,23 @@
 from abc import ABCMeta, abstractmethod
-import math
-from core.Map import Map
+import random
 from entities.ColiableEntity import ColiableEntity
 from entities.Entity import Entity
+from scenes.Tile import Tile
 from utils.helpers import Direction
 from config import globals
-import pygame
 import math
 
 class Enemy(ColiableEntity, metaclass=ABCMeta):
 
     def __init__(self, target: Entity, mapData: list[list[int]], *args, **kwargs):
         self.__target = target
-        self.__mapData = mapData
-        self.__patience = 0
-        self.__patienceReset = globals.BLOCK_SIZE // 2 ## it will commit with tha half of the block size to move
         super().__init__(*args, **kwargs)
 
-    def update(self):
-        
-        if self.__patience <= 0:
-            
-            self.direction = Direction.RIGHT
-            x, y = self.getAbsolutePosition()
-            mx, my = self.getMapPosition()
-            tx, ty = self.getTargetAbsolutePosition()
-            
-            print(self.__mapData[y])
-            previewRight  = self.__mapData[y][x + 1]
-            previewLeft   = self.__mapData[y][x-1]
-            previewUp    = self.__mapData[y - 1][x]
-            previewDown   = self.__mapData[y + 1][x]
-            
-            if tx > mx:
-                self.direction = Direction.RIGHT
-                if previewRight == Map.Objects.TILE.value:
-                    self.changeDirection((previewDown, Direction.DOWN), (previewUp, Direction.UP), (previewLeft, Direction.LEFT))
-            if tx < x:
-                self.direction = Direction.LEFT
-                if previewLeft == Map.Objects.TILE.value:
-                    self.changeDirection((previewDown, Direction.DOWN), (previewUp, Direction.UP), (previewRight, Direction.RIGHT))
-            if ty > y:
-                self.direction = Direction.DOWN
-                if previewDown == Map.Objects.TILE.value:
-                    self.changeDirection((previewRight, Direction.RIGHT), (previewLeft, Direction.LEFT), (previewUp, Direction.UP))
-            if ty < y:
-                self.direction = Direction.UP
-                if previewUp == Map.Objects.TILE.value:
-                    self.changeDirection((previewRight, Direction.RIGHT), (previewLeft, Direction.LEFT), (previewDown, Direction.DOWN))
-            self.__patience = self.__patienceReset
+    def update(self):        
         self.move(self.direction)
-        self.__patience -= 1
         super().update()
-        
-    
-    def changeDirection(self, preview1: tuple[int, Direction], preview2: tuple[int, Direction], preview3: tuple[int, Direction]):
-        if preview1[0] != Map.Objects.TILE.value:
-            self.direction = preview1[1]
-        elif preview2[0] == Map.Objects.TILE.value:
-            self.direction = preview2[1]
-        elif preview3[0] == Map.Objects.TILE.value: 
-            self.direction = preview3[1]
-        
-    
+       
+
     # consider moving this to a general helper module
     def getAbsolutePosition(self) -> tuple[int, int]:
         return (self.rect.x // globals.BLOCK_SIZE) + 1, (self.rect.y // globals.BLOCK_SIZE) + 1
@@ -79,4 +34,16 @@ class Enemy(ColiableEntity, metaclass=ABCMeta):
         from entities.Player import Player
         if isinstance(entity, Player) and entity.IsPowered():
             self.kill()
+        if isinstance(entity, Tile):
+            direction = random.randint(0, 3)
+            match direction:
+                case Direction.LEFT.value:
+                    self.direction = Direction.LEFT
+                case Direction.RIGHT.value:
+                    self.direction = Direction.RIGHT
+                case Direction.UP.value:
+                    self.direction = Direction.UP
+                case Direction.DOWN.value:
+                    self.direction = Direction.DOWN
+            
         return super().onCollision(entity)

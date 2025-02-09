@@ -23,7 +23,7 @@
                 "position": [8, 5]
             },
             {
-                "type": 2,
+                "type": 1,
                 "position": [9, 5]
             }
         ],
@@ -32,24 +32,24 @@
     },
     "questions": [
         {
-            "question": "Qual é o estado físico da água quando está congelada?",
-            "answers": ["Líquido", "Sólido", "Gasoso", "Plasma"],
+            "question": "Qual é o nome do elemento químico cujo símbolo é 'Hg'?",
+            "answers": ["Hidrogênio", "Mercúrio", "Manganês", "Hélio"],
             "rightIndex": 1
         },
         {
-            "question": "Qual desses objetos é feito principalmente de metal?",
-            "answers": ["Borracha", "Garrafa plástica", "Colher de aço", "Madeira"],
+            "question": "Qual dos seguintes compostos é uma base de Arrhenius?",
+            "answers": ["HCl", "NaOH", "H2SO4", "CO2"],
+            "rightIndex": 1
+        },
+        {
+            "question": "Qual é o número atômico do carbono?",
+            "answers": ["6", "12", "14", "8"],
+            "rightIndex": 0
+        },
+        {
+            "question": "Qual das opções abaixo representa um gás nobre?",
+            "answers": ["Oxigênio", "Nitrogênio", "Neônio", "Cloro"],
             "rightIndex": 2
-        },
-        {
-            "question": "Qual gás as plantas usam para fazer a fotossíntese?",
-            "answers": ["Oxigênio", "Hidrogênio", "Nitrogênio", "Gás Carbônico"],
-            "rightIndex": 3
-        },
-        {
-            "question": "Qual desses líquidos é uma substância pura?",
-            "answers": ["Leite", "Refrigerante", "Agua destilada", "Suco de laranja"],
-            "rightIndex": 3
         }
-    ]
+    ]    
 }
