@@ -12,9 +12,9 @@ pip install pygame
 python main.py
 ```
 ### Teclas
- - WASD: para movimentar o Pudim
- - Enter: para confimar a reposta de uma pergunta
- - Up Arrow ou Down Arrow: para selecionar uma respota diferente
+ - `WASD`: para movimentar o Pudim
+ - `Enter`: para confimar a reposta de uma pergunta
+ - `Up Arrow` ou `Down Arrow`: para selecionar uma respota diferente
 
 
    
