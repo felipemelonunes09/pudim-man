@@ -1,5 +1,7 @@
 # Pudim-Man
 
+Status: ✅ Concluído 
+
 Pudim-Man é um jogo desenvolvido em Python 3.12 utilizando a biblioteca Pygame. Ele recria a mecânica clássica de Pac-Man, mas com um diferencial: para conseguir "comer" os inimigos, o jogador precisa primeiro responder corretamente a uma questão de química. Ao acertar, terá 10 segundos para eliminá-los, porém, eles renascerão após esse tempo.
 
 ## Como Rodar
