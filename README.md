@@ -18,5 +18,8 @@ python main.py
  - `Enter`: para confimar a reposta de uma pergunta
  - `Up Arrow` ou `Down Arrow`: para selecionar uma respota diferente
 
+### Como vencer ?
+Para vencer é necessário que todos os pontos sejam pegos e perguntas respondidas sem que os inimigos encostem em você.
+
 
    
