@@ -19,7 +19,7 @@ python main.py
  - `Up Arrow` ou `Down Arrow`: para selecionar uma respota diferente
 
 ### Como vencer ?
-Para vencer é necessário que todos os pontos sejam pegos e perguntas respondidas sem que os inimigos encostem em você.
+Para vencer é necessário que todos os pontos sejam pegos e perguntas sejam respondidas sem que os inimigos encostem em você.
 
 
    
