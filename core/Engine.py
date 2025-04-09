@@ -1,4 +1,5 @@
 import json
+import random
 import pygame
 from config import globals
 from core.Map import Map
@@ -22,7 +23,6 @@ class Engine:
             self.anchorX = anchorX
             self.updatePointText(0)
             self.updateCountDownText(0)
-            self.__showCountDownText = False
 
         def updatePointText(self, number: object) -> None:
             self.pointText = self.font.render(f"Points: {number}", True, globals.TEXT_COLOR)
@@ -60,18 +60,18 @@ class Engine:
         
         self.running    = True
         self.pointsCount = 0
+        self.enemiesQuantity = 0
 
-        ### Vars to set the game mechanism
         self.displayQuestion = False
 
-        for enemy in self.levelConfig["enemies"]:
-            type = enemy["type"]
-            position = enemy["position"]
-            match type:
-                case Engine.EnemiesMap.PAN.value:
-                    self.enemies.add(Pan(position=(position[0], position[1]), target=self.player))
-                case Engine.EnemiesMap.JELLY.value:
-                    self.enemies.add(Jelly(position=(position[0], position[1]), target=self.player))
+        #for enemy in self.levelConfig["enemies"]:
+        #    type = enemy["type"]
+        #    position = enemy["position"]
+        #    match type:
+        #        case Engine.EnemiesMap.PAN.value:
+        #            self.enemies.add(Pan(position=(position[0], position[1]), target=self.player, mapData=self.map.getMapData()))
+        #        case Engine.EnemiesMap.JELLY.value:
+        #            self.enemies.add(Jelly(position=(position[0], position[1]), target=self.player, mapData=self.map.getMapData()))
         
         self.entities.add(self.player, self.enemies)
         self.allSprites.add(self.map, self.player, self.enemies, self.entities)
@@ -95,6 +95,7 @@ class Engine:
                     ## Change the game state
                     if not self.player.isAlive() or self.map.getItemsQuantity() == 0:
                         self.stateManager.setState(StateManager.State.ENDGAME)
+                    self.handleEnemies()
                 case StateManager.State.QUESTIONING:
                     self.questionManager.draw(self.screen)
                     self.questionManager.update()
@@ -110,6 +111,26 @@ class Engine:
 
             pygame.display.flip()
             self.clock.tick(globals.FPS)
+        
+    def getRandomEnemy(self) -> dict[str, object]:
+        return self.levelConfig["enemies"]["entities"][ random.randint(0, len(self.levelConfig["enemies"]["entities"]) - 1) ]
+            
+    def handleEnemies(self):
+        if len(self.enemies) <= self.levelConfig["enemies"]["maxNumber"]: 
+            if self.levelConfig["enemies"]["respaw"]:
+                enemy       = self.getRandomEnemy()
+                position    = enemy["position"]
+                self.enemiesQuantity += 1
+                match enemy["type"]:
+                    case Engine.EnemiesMap.PAN.value:
+                        self.enemies.add(Pan(position=(position[0], position[1]), target=self.player, mapData=self.map.getMapData()))
+                    case Engine.EnemiesMap.JELLY.value:
+                        self.enemies.add(Jelly(position=(position[0], position[1]), target=self.player, mapData=self.map.getMapData()))
+                self.entities.add(self.enemies)
+                self.allSprites.add(self.enemies)
+        else:
+            pass     
+        
 
     def handleCollisions(self):
 
