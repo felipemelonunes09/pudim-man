@@ -1,5 +1,7 @@
 import pygame
 from config import globals
+from typing import List
+
 
 class Question():
     def __init__(self, question: str, answers: list[str], rightIndex: int):

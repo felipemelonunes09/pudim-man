@@ -1,0 +1,16 @@
+# Usa a imagem base do Ubuntu
+FROM ubuntu:20.04
+
+# Evita prompts interativos na instalação de pacotes
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Atualiza pacotes e adiciona comandos echo
+RUN apt-get update
+RUN apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+RUN apt install python3
+RUN pip3 install --upgrade Cython==0.29.33
+RUN pip3 install --upgrade buildozer
+RUN buildozer -v android debug
+
+# Comando padrão ao iniciar o container
+CMD ["/bin/bash"]

@@ -3,10 +3,18 @@ from enum import Enum
 
 class StateManager():
     class State(Enum):
-        RUNNING = 1
-        QUESTIONING = 2
-        EXITING = 3
-        ENDGAME = 4
+        ## < Common States >
+        EXITING = -1
+        DEFAULT = 0
+
+        ## < Menu States >
+        ON_MENU=10
+        ON_MENU_CONFIG=11
+        ON_MENU_LEVELS=12
+
+        RUNNING = 20
+        QUESTIONING = 21
+        ENDGAME = 22
         
     def __init__(self, state: State):
         self.__state = state

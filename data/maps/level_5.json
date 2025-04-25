@@ -1,0 +1,55 @@
+{
+    "map": [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 1, 0, 2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 1],
+        [1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1],
+        [1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1],
+        [1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],
+        [1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
+        [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1],
+        [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1],
+        [1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1],
+        [1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1],
+        [1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1],
+        [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+        [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    ],
+    "enemies": {
+        "entities": [
+            {
+                "type": 0,
+                "position": [8, 5]
+            },
+            {
+                "type": 1,
+                "position": [9, 5]
+            }
+        ],
+        "maxNumber": 3,
+        "respaw": true
+    },
+    "questions": [
+        {
+            "question": "Qual cientista formulou as leis do movimento?",
+            "answers": ["Einstein", "Galileu", "Newton", "Bohr"],
+            "rightIndex": 2
+        },
+        {
+            "question": "Qual é o estado físico do ferro à temperatura ambiente?",
+            "answers": ["Sólido", "Líquido", "Gasoso", "Plasma"],
+            "rightIndex": 0
+        },
+        {
+            "question": "Qual estrutura celular é responsável pela produção de energia?",
+            "answers": ["Mitocôndria", "Ribossomo", "Lisossomo", "Núcleo"],
+            "rightIndex": 0
+        },
+        {
+            "question": "O que mede um termômetro?",
+            "answers": ["Pressão", "Temperatura", "Volume", "Peso"],
+            "rightIndex": 1
+        }
+    ]    
+}

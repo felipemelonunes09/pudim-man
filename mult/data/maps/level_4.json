@@ -1,0 +1,55 @@
+{
+    "map": [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 1],
+        [1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1],
+        [1, 0, 1, 1, 0, 1, 0, 1, 2, 0, 0, 2, 0, 1, 0, 1, 1, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1],
+        [1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1],
+        [1, 1, 0, 1, 0, 1, 0, 0, 0, 2, 2, 0, 0, 1, 0, 1, 0, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1],
+        [1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1],
+        [1, 0, 1, 1, 0, 1, 0, 0, 0, 2, 2, 0, 0, 0, 1, 0, 1, 1, 0, 1],
+        [1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1],
+        [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    ],
+    "enemies": {
+        "entities": [
+            {
+                "type": 0,
+                "position": [8, 5]
+            },
+            {
+                "type": 1,
+                "position": [9, 5]
+            }
+        ],
+        "maxNumber": 3,
+        "respaw": true
+    },
+    "questions": [
+        {
+            "question": "Qual o nome do processo de transformação de água em vapor?",
+            "answers": ["Condensação", "Sublimação", "Evaporação", "Fusão"],
+            "rightIndex": 2
+        },
+        {
+            "question": "A camada de ozônio protege a Terra de qual radiação?",
+            "answers": ["Infravermelha", "Micro-ondas", "Ultravioleta", "Raio-X"],
+            "rightIndex": 2
+        },
+        {
+            "question": "Qual dos seguintes não é um estado da matéria?",
+            "answers": ["Sólido", "Gasoso", "Líquido", "Magnético"],
+            "rightIndex": 3
+        },
+        {
+            "question": "Que tipo de animal é a baleia?",
+            "answers": ["Peixe", "Réptil", "Mamífero", "Anfíbio"],
+            "rightIndex": 2
+        }
+    ]    
+}

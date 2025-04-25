@@ -36,3 +36,7 @@ dist/
 *.bak
 *.sav
 *.state
+
+
+.buildozer
+bin
