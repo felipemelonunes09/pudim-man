@@ -12,5 +12,6 @@ RUN pip3 install --upgrade Cython==0.29.33
 RUN pip3 install --upgrade buildozer
 RUN buildozer -v android debug
 
+#docker run -it -v %CD%:/app meu-ubuntu
 # Comando padrão ao iniciar o container
 CMD ["/bin/bash"]
