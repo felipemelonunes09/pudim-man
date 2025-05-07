@@ -1,5 +1,5 @@
 import enum
-from typing import Iterator, List, Dict, Union  # necessário para Python 3.8
+from typing import Iterator, List, Dict, Union  
 from core.QuestionTrial import Question
 
 def questionGenerator(questions: List[Dict[str, Union[str, List, int]]]) -> Iterator[Question]:

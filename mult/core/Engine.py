@@ -1,5 +1,6 @@
 import json
 import random
+from core.input.Event import UpdatePlayerPositionEvent
 import pygame
 from typing import List, Tuple, Dict  
 from config import globals
@@ -7,11 +8,13 @@ from core.Map import Map
 from core.IColiable import IColiable
 from core.StateManager import StateManager
 from core.QuestionTrial import QuestionTrial
+from core.input.InputHandler import IInputHandler
 from entities.Player import Player
 from entities.enemy.Pan import Pan
 from entities.enemy.Jelly import Jelly
 from scenes.Point import QuestionPoint
 from enum import Enum
+from collections import deque
 
 class Engine:
     class EnemiesMap(Enum):
@@ -41,7 +44,8 @@ class Engine:
         def getX(self):
             return self.anchorX * globals.BLOCK_SIZE
 
-    def __init__(self):
+    def __init__(self, inputHandler: IInputHandler):
+        
         self.screen = pygame.display.set_mode(globals.SCREEN_SIZE)
         self.clock = pygame.time.Clock()
 
@@ -67,12 +71,27 @@ class Engine:
         self.entities.add(self.player, self.enemies)
         self.allSprites.add(self.map, self.player, self.enemies, self.entities)
 
-    def start(self):
+        self.__inputHandler = inputHandler
+        
+
+    def start(self):  
         while self.running:
+            print(f"(+) Running Engine --inputHandler: {self.__inputHandler.__class__.__name__}")
+            gameEvent = deque()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-
+                inputGameEvent = self.__inputHandler.translateEvent(event)
+                print(inputGameEvent)
+                if inputGameEvent is not None:
+                    gameEvent.append(inputGameEvent)
+            
+            for event in gameEvent:
+                print("(+) Event:" + str(event))    
+                if isinstance(event, UpdatePlayerPositionEvent):
+                    print("\t(*) Player direction: " + str(event.cardinalDirection))
+                    self.player.direction = event.cardinalDirection
+  
             self.screen.fill(globals.SCREEN_COLOR)
             self.allSprites.draw(self.screen)
             self.display.draw(self.screen)

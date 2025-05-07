@@ -36,6 +36,7 @@ class Player(ColiableEntity):
         self.__isPowered = powered
         self.__powerStart = pygame.time.get_ticks() if powered else None
 
+    # refact
     def update(self):
         keys = pygame.key.get_pressed()
         self.move(keys)
@@ -44,21 +45,12 @@ class Player(ColiableEntity):
             self.__remainingPowertime = max(0, (self.__powerDuration - elapsedTime) // 1000)
             if elapsedTime >= self.__powerDuration:
                 self.setIsPowered(False)
+        self.move(self.direction)
         return super().update()
     
-    def move(self, keys: pygame.key.ScancodeWrapper):
-        if keys[pygame.K_LEFT]:
-            return super().move(Direction.LEFT)
-        elif keys[pygame.K_RIGHT]:
-            return super().move(Direction.RIGHT)
-        elif keys[pygame.K_UP]:
-            return super().move(Direction.UP)
-        elif keys[pygame.K_DOWN]:
-            return super().move(Direction.DOWN)
         
     def onCollision(self, entity):
         if isinstance(entity, Enemy) and not self.IsPowered():
             self.__alive = False
             self.kill()
         return super().onCollision(entity)
-        
