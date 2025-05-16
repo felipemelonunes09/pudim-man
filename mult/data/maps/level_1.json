@@ -20,11 +20,11 @@
         "entities": [
             {
                 "type": 0,
-                "position": [8, 5]
+                "position": [4, 1]
             },
             {
                 "type": 1,
-                "position": [9, 5]
+                "position": [18, 1]
             }
         ],
         "maxNumber": 3,
