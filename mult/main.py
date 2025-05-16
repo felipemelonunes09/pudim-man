@@ -6,14 +6,13 @@ from core.input.InputHandler import IInputHandler
 from core.input.PCInputHandler import PCInputHandler
 from core.input.AndroidInputHandler import AndroidInputHandler
 
-def getInputHandlerFromPlataform(platform: int) -> IInputHandler:
-    if platform == 1:
+def getInputHandlerFromPlataform(platform: globals.Platform) -> IInputHandler:
+    if platform == globals.Platform.PC:
         return PCInputHandler()
-    elif platform == 2:
+    elif platform == globals.Platform.ANDROID:
         return AndroidInputHandler()
     else:
         raise ValueError("Invalid platform type")
-
 
 if __name__ == "__main__":
     pygame.init()
