@@ -29,7 +29,6 @@ class QuestionTrial:
         super().__init__(*groups)
         self.margin     = 50
         self.index      = 0
-        self.count      = 0
         self.refresh    = 8
         self.fontName   = font
         self.size       = size
@@ -46,26 +45,26 @@ class QuestionTrial:
             self.image.blit(self.__awnsersText[i], self.__awnsersTextRect[i])
         surface.blit(self.image, (self.margin, self.margin))
 
-    def update(self):
-        keys = pygame.key.get_pressed()
-        if self.count > 0:
-            self.count -= 1
-        else:
-            if keys[pygame.K_UP]:
-                self.index = (self.index - 1) % self.__question.getAwnsersLen()
-                self.__updateText()
-            elif keys[pygame.K_DOWN]:
-                self.index = (self.index + 1) % self.__question.getAwnsersLen()
-                self.__updateText()
-            elif keys[pygame.K_RETURN]:
-                self.completed = True
-            self.count = self.refresh
+    def update(self, pos: Tuple[int, int]):
+        local_pos = (pos[0] - self.margin, pos[1] - self.margin)
+        print("[QuestionTrial] Update: ", local_pos)
+        for txtRect in self.__awnsersTextRect:
+            if txtRect.collidepoint(local_pos) and not self.completed:
+                idx = self.__awnsersTextRect.index(txtRect)
+                if idx == len(self.__awnserList) - 1:
+                    self.completed = True
+                else:
+                    self.index = idx
+                    self.__updateText()
+
 
     def setQuestion(self, question: Question) -> None:
         self.__question = question
         self.index = 0
         self.completed = False
         self.correct = False
+        self.__awnserList = question.getAwnsers()
+        self.__awnserList.append("Responder!!")
         self.__createSurface()
         self.__updateText()
 
@@ -84,11 +83,12 @@ class QuestionTrial:
         self.__questionTextRect = self.__questionText.get_rect(topleft=(self.margin, self.margin))
         self.__awnsersText = [
             self.font.render(
-                self.__question.getAwnser(index),
+                self.__question.getAwnser(index) + "                             ",
                 True,
                 globals.SELECTED_TEXT_COLOR if index == self.index else globals.TEXT_COLOR
-            ) for index, _ in enumerate(self.__question.getAwnsers())
+            ) for index, _ in enumerate(self.__awnserList)
         ]
+
         self.__awnsersTextRect = [
             awnswerText.get_rect(topleft=(self.margin, self.margin * index + self.margin * 2))
             for index, awnswerText in enumerate(self.__awnsersText)

@@ -1,17 +1,17 @@
 import json
 import random
-from core.input.Event import UpdatePlayerPositionEvent
 import pygame
-from typing import List, Tuple, Dict  
+from typing import List, Dict  
 from config import globals
 from core.Map import Map
 from core.IColiable import IColiable
 from core.StateManager import StateManager
 from core.QuestionTrial import QuestionTrial
-from core.input.InputHandler import IInputHandler
 from entities.Player import Player
 from entities.enemy.Pan import Pan
 from entities.enemy.Jelly import Jelly
+from core.input.Event import DirectionInputEvent, PointInputEvent
+from core.input.InputHandler import IInputHandler
 from scenes.Point import QuestionPoint
 from enum import Enum
 from collections import deque
@@ -45,7 +45,6 @@ class Engine:
             return self.anchorX * globals.BLOCK_SIZE
 
     def __init__(self, inputHandler: IInputHandler):
-        
         self.screen = pygame.display.set_mode(globals.SCREEN_SIZE)
         self.clock = pygame.time.Clock()
 
@@ -56,42 +55,62 @@ class Engine:
         self.levelConfig = Engine.loadMap(globals.LEVEL_1)
         self.stateManager = StateManager(state=StateManager.State.RUNNING)
 
-        self.map = Map(self.levelConfig, globals.BLOCK_SIZE)
-        self.display = Engine.Display(globals.FONT, globals.FONT_SIZE, anchorX=self.map.getRowSize())
         self.questionManager = QuestionTrial(globals.FONT, globals.FONT_SIZE)
-        
-        # posição inicial hardcoded
-        self.player = Player(position=(10, 9))
 
         self.running = True
         self.pointsCount = 0
         self.enemiesQuantity = 0
         self.displayQuestion = False
 
+        self.inputHandler = inputHandler
+        self.map = Map(self.levelConfig, blockSize=globals.BLOCK_SIZE)
+        
+        if globals.TARGET_DEVICE == globals.Platform.ANDROID:
+            self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+            self.screenSize = self.screen.get_size()
+            self.blockSize = self.screenSize[1] // self.map.getColSize()
+        elif globals.TARGET_DEVICE == globals.Platform.PC:
+            self.screen = pygame.display.set_mode(globals.SCREEN_SIZE)
+            self.screenSize = globals.SCREEN_SIZE
+            self.blockSize = self.screenSize[1] // self.map.getColSize()
+
+        self.map.setBlockSize(self.blockSize)
+        self.scaleRatio = (self.blockSize * 0.8, self.blockSize * 0.8)
+        self.map.buildMap()
+
+        # posição inicial hardcoded
+        self.player = Player(position=(8*self.blockSize, 8*self.blockSize), ratio=self.scaleRatio)
+
+        self.display = Engine.Display(globals.FONT, globals.FONT_SIZE, anchorX=self.map.getRowSize())
+
         self.entities.add(self.player, self.enemies)
         self.allSprites.add(self.map, self.player, self.enemies, self.entities)
 
-        self.__inputHandler = inputHandler
-        
-
-    def start(self):  
+        print(f"(+) [Engine Specs] --ScreenSize: {self.screenSize} --BlockSize: {self.blockSize}")
+    
+    def start(self):
         while self.running:
-            print(f"(+) Running Engine --inputHandler: {self.__inputHandler.__class__.__name__}")
-            gameEvent = deque()
+            gameEventQueue: deque = deque()
+            ## this may change --should implement a version of consuming the eventDeque in all states
+            inputDirection: DirectionInputEvent = None
+            inputPoint: PointInputEvent = None
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-                inputGameEvent = self.__inputHandler.translateEvent(event)
-                print(inputGameEvent)
-                if inputGameEvent is not None:
-                    gameEvent.append(inputGameEvent)
-            
-            for event in gameEvent:
-                print("(+) Event:" + str(event))    
-                if isinstance(event, UpdatePlayerPositionEvent):
-                    print("\t(*) Player direction: " + str(event.cardinalDirection))
-                    self.player.direction = event.cardinalDirection
-  
+                
+                gameEvent = self.inputHandler.translateEvent(event)
+                if gameEvent != None:
+                    gameEventQueue.append(gameEvent)
+
+            for gameEvent in gameEventQueue:
+                if isinstance(gameEvent, DirectionInputEvent):
+                    print("(+) [DirectionInputEvent] Direction: ", gameEvent.cardinalDirection)
+                    inputDirection = gameEvent 
+                if isinstance(gameEvent, PointInputEvent):
+                    print("(+) [PointInputEvent] Position: ", gameEvent.position)
+                    inputPoint = gameEvent
+
             self.screen.fill(globals.SCREEN_COLOR)
             self.allSprites.draw(self.screen)
             self.display.draw(self.screen)
@@ -106,17 +125,25 @@ class Engine:
                 if not self.player.isAlive() or self.map.getItemsQuantity() == 0:
                     self.stateManager.setState(StateManager.State.ENDGAME)
 
+                if inputDirection != None:
+                    self.player.direction = inputDirection.cardinalDirection
+
                 self.handleEnemies()
 
             elif state == StateManager.State.QUESTIONING:
                 self.questionManager.draw(self.screen)
-                self.questionManager.update()
                 completed, correct = self.questionManager.testCompletion()
                 if completed:
+                    print(f"(+) [Question] Completed: {completed} Correct: {correct}")
                     self.stateManager.setState(StateManager.State.RUNNING)
                     if correct:
                         self.player.setIsPowered(True)
                         self.display.updateCountDownText(self.player.getPowerDuration())
+                if inputPoint != None:
+                    if globals.TARGET_DEVICE == globals.Platform.ANDROID:
+                        print("\t(*) [Detected correction for device] --NormalizedValue: ", inputPoint.position, " --ScreenSize: ", self.screenSize)
+                        inputPoint.position = (inputPoint.position[0] * self.screenSize[0], inputPoint.position[1] * self.screenSize[1])
+                    self.questionManager.update(inputPoint.position)
 
             elif state == StateManager.State.ENDGAME:
                 self.running = False
@@ -137,9 +164,9 @@ class Engine:
                 self.enemiesQuantity += 1
 
                 if enemy["type"] == Engine.EnemiesMap.PAN.value:
-                    self.enemies.add(Pan(position=(position[0], position[1]), target=self.player, mapData=self.map.getMapData()))
+                    self.enemies.add(Pan(ratio=self.scaleRatio, position=(position[0]*self.blockSize, position[1]*self.blockSize), target=self.player, mapData=self.map.getMapData()))
                 elif enemy["type"] == Engine.EnemiesMap.JELLY.value:
-                    self.enemies.add(Jelly(position=(position[0], position[1]), target=self.player, mapData=self.map.getMapData()))
+                    self.enemies.add(Jelly(ratio=self.scaleRatio, position=(position[0]*self.blockSize, position[1]*self.blockSize), target=self.player, mapData=self.map.getMapData()))
 
                 self.entities.add(self.enemies)
                 self.allSprites.add(self.enemies)
