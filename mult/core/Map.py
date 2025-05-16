@@ -19,16 +19,17 @@ class Map(pygame.sprite.Group):
         self.tiles = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
         self.items = pygame.sprite.Group() 
-        self.buildMap()
-        self.add(self.tiles)
-        self.add(self.enemies)
-        self.add(self.items)
-
+        
     def buildMap(self) -> List[pygame.sprite.Group]:
         map_data: List[List[int]] = self.levelData["map"]
         questions = questionGenerator(self.levelData["questions"])
 
+        self.tiles = pygame.sprite.Group()
+        self.enemies = pygame.sprite.Group()
+        self.items = pygame.sprite.Group() 
+
         for y, row in enumerate(map_data):
+            print("(+) Map Build --Row", y, ":", row)
             for x, col in enumerate(row):
                 if col == Map.Objects.POINT.value:
                     self.items.add(Point(
@@ -53,6 +54,13 @@ class Map(pygame.sprite.Group):
                         self.blockSize,
                         globals.BLOCK_COLOR
                     ))
+        self.add(self.tiles)
+        self.add(self.enemies)
+        self.add(self.items)
+
+    def setBlockSize(self, blockSize: int) -> None:
+        print("setted new blockSize")
+        self.blockSize = blockSize
 
     def getItemsQuantity(self) -> int:
         return len(self.items)
@@ -62,3 +70,7 @@ class Map(pygame.sprite.Group):
     
     def getRowSize(self) -> int:
         return len(self.levelData["map"][0])
+    
+    def getColSize(self) -> int:
+        return len(self.levelData["map"])
+    
