@@ -1,5 +1,5 @@
 from core.input.InputHandler import IInputHandler
-from core.input.Event import Event, UpdatePlayerPositionEvent
+from core.input.Event import Event, DirectionInputEvent, PointInputEvent
 from utils.helpers import Direction
 import pygame
 
@@ -11,11 +11,14 @@ class PCInputHandler(IInputHandler):
     def translateEvent(self, event: pygame.event) -> Event:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                return UpdatePlayerPositionEvent(Direction.UP)
+                return DirectionInputEvent(Direction.UP)
             elif event.key == pygame.K_DOWN:
-                return UpdatePlayerPositionEvent(Direction.DOWN)
+                return DirectionInputEvent(Direction.DOWN)
             elif event.key == pygame.K_LEFT:
-                return UpdatePlayerPositionEvent(Direction.LEFT)
+                return DirectionInputEvent(Direction.LEFT)
             elif event.key == pygame.K_RIGHT:
-                return UpdatePlayerPositionEvent(Direction.RIGHT)
+                return DirectionInputEvent(Direction.RIGHT)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                return PointInputEvent(position=event.pos)
         return None
