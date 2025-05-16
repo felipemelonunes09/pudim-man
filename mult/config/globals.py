@@ -3,8 +3,12 @@ import os
 ## <!-- OS Globals --!>
 ##
 
+class Platform:
+    PC = 1
+    ANDROID = 2
+
 # ! initial values may change depending on the plataform
-TARGET_DEVICE       = 1                                     # 1 = pc, 2 = android
+TARGET_DEVICE       = Platform.PC                                     # 1 = pc, 2 = android
 FPS                 = 60
 SCREEN_SIZE         = (1500, 800)
 SCREEN_COLOR        = (0, 0, 0)
