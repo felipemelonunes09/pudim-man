@@ -2,12 +2,12 @@ from entities.enemy.Enemy import Enemy
 from config.sprites import Sprites
 
 class Jelly(Enemy):
-    def __init__(self, *a, **k):
+    def __init__(self, ratio, *a, **k):
         super().__init__(
-            walkRight   = Sprites.Jelly.walkRight,
-            walkLeft    = Sprites.Jelly.walkLeft,
-            walkUp      = Sprites.Jelly.walkRight,
-            walkDown    = Sprites.Jelly.walkRight,
+            walkRight   = Sprites.Jelly.walkRight(ratio),
+            walkLeft    = Sprites.Jelly.walkLeft(ratio),
+            walkUp      = Sprites.Jelly.walkRight(ratio),
+            walkDown    = Sprites.Jelly.walkRight(ratio),
             *a, 
             **k
         )
