@@ -15,7 +15,7 @@ class Entity(pygame.sprite.Sprite):
         self.image = self.walkLeft[0]
         self.__currentAnimation = self.walkLeft
 
-        self.rect = self.image.get_rect(center=(position[0]*globals.BLOCK_SIZE, position[1]*globals.BLOCK_SIZE))
+        self.rect = self.image.get_rect(center=(position[0], position[1]))
         self.direction = Direction.LEFT
         self.speed = 2
         self.frameIndex = 0
